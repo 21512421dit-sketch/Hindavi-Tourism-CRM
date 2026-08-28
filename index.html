@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hindavi Tourism CRM</title>
+<style>
+:root{--navy:#242768;--navy2:#161944;--orange:#7daa2c;--orange2:#a8ca55;--sky:#f2f5ff;--ink:#18213a;--muted:#68728a;--line:#dfe3ef;--white:#fff;--green:#16966b;--red:#d44c55;--yellow:#d89710;--purple:#6558cf;--shadow:0 14px 35px rgba(32,36,99,.12);--radius:18px}
+*{box-sizing:border-box}body{margin:0;font:14px/1.45 Inter,Segoe UI,Arial,sans-serif;background:#f7f8fc;color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#fff;padding:18px 14px;z-index:30;overflow:auto}.brand{display:flex;gap:10px;align-items:center;padding:3px 8px 20px}.brand-mark{width:48px;height:48px;border-radius:14px;background:#fff;color:var(--navy);display:grid;place-items:center;font-size:24px;font-weight:900;box-shadow:0 8px 20px #0003}.brand b{display:block;font-size:15px}.brand small{opacity:.72}.nav-group{font-size:10px;text-transform:uppercase;letter-spacing:.14em;opacity:.55;margin:14px 12px 8px}.nav{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#dfe3ff;padding:11px 12px;border-radius:12px;text-align:left;margin:3px 0}.nav:hover,.nav.active{background:#ffffff18;color:#fff}.nav.active{box-shadow:inset 3px 0 var(--orange)}.nav .ico{width:19px;text-align:center}.pill{margin-left:auto;background:var(--orange);color:#fff;font-size:10px;border-radius:99px;padding:2px 7px}.main{margin-left:248px;min-height:100vh}.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 28px;gap:16px;position:sticky;top:0;z-index:20}.menu-btn{display:none}.search{flex:1;max-width:560px;position:relative}.search input{width:100%;border:1px solid var(--line);background:#f8f9fc;border-radius:12px;padding:11px 40px 11px 14px;outline:none}.search kbd{position:absolute;right:10px;top:9px;border:1px solid var(--line);border-radius:7px;padding:2px 6px;color:var(--muted);background:#fff}.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}.icon-btn{width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:12px}.avatar{width:40px;height:40px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}.content{padding:26px 28px 92px;max-width:1600px;margin:auto}.page{display:none}.page.active{display:block}.page-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:22px}.page-head h1{font-size:26px;line-height:1.1;margin:0 0 6px}.page-head p{margin:0;color:var(--muted)}.actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:11px;padding:10px 14px;font-weight:650}.btn:hover{transform:translateY(-1px);box-shadow:0 5px 14px #20246315}.btn.primary{background:var(--orange);border-color:var(--orange);color:#fff}.btn.dark{background:var(--navy);border-color:var(--navy);color:#fff}.btn.danger{color:var(--red)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}.stat,.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 3px 12px rgba(32,36,99,.04)}.stat{padding:18px}.stat.clickable{cursor:pointer}.stat.clickable:hover{border-color:var(--orange);transform:translateY(-2px)}.stat-top{display:flex;align-items:center;justify-content:space-between;color:var(--muted)}.stat-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#f0f4e4;color:var(--orange)}.stat strong{display:block;font-size:27px;margin:9px 0 3px}.trend.up{color:var(--green)}.trend.down{color:var(--red)}.grid-2{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}.card{padding:19px}.card-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}.card-title h3{margin:0;font-size:16px}.link{border:0;background:transparent;color:var(--purple);font-weight:700}.activity{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid #edf0f6}.activity:last-child{border:0}.dot{width:10px;height:10px;border-radius:50%;background:var(--orange);margin-top:5px;box-shadow:0 0 0 5px #f0f4e4}.activity p{margin:0}.activity small,.muted{color:var(--muted)}.dash-charts{margin-bottom:16px}.chart-legend{display:flex;gap:16px;color:var(--muted);font-size:12px}.legend-key{display:inline-flex;align-items:center;gap:6px}.legend-key:before{content:'';width:9px;height:9px;border-radius:3px;background:var(--orange)}.legend-key.booking:before{background:var(--purple)}.ops-chart{height:215px;display:flex;align-items:flex-end;gap:12px;padding:18px 5px 30px;border-bottom:1px solid var(--line)}.bar-group{height:100%;flex:1;display:flex;align-items:flex-end;justify-content:center;gap:5px;position:relative}.chart-bar{width:min(24px,40%);min-height:4px;border-radius:7px 7px 2px 2px;background:linear-gradient(180deg,var(--orange2),var(--orange));position:relative;transition:.25s}.chart-bar.booking{background:linear-gradient(180deg,#9188e9,var(--purple))}.chart-bar:hover:after{content:attr(data-value);position:absolute;top:-27px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:3px 7px;border-radius:6px;font-size:10px;white-space:nowrap}.bar-label{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}.health-list{display:grid;gap:17px;padding-top:7px}.health-row{display:grid;grid-template-columns:145px 1fr 42px;gap:10px;align-items:center}.health-row .progress{margin:0;height:10px}.health-row:nth-child(2) .progress i{background:var(--purple)}.health-row:nth-child(3) .progress i{background:var(--green)}.health-row:nth-child(4) .progress i{background:var(--yellow)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.field,select.field{border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;min-height:41px;outline:none}.filters .field{min-width:160px}.table-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px}table{border-collapse:collapse;width:100%;min-width:820px}th,td{text-align:left;padding:13px 14px;border-bottom:1px solid #edf0f6;white-space:nowrap}th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);background:#fafbfe}tbody tr:hover{background:#fbfcf5}.status{display:inline-flex;align-items:center;border:0;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:700;background:#edf1f6;color:#526273}.status.new{background:#e7f3ff;color:#1671bb}.status.follow,.status.pending{background:#fff5d8;color:#986600}.status.won,.status.paid,.status.confirmed,.status.approved,.status.available{background:#e3f7ee;color:#11734f}.status.lost,.status.overdue,.status.rejected,.status.unavailable{background:#ffebeb;color:#b62d29}.status.quotation,.status.submitted{background:#efebff;color:#6042c1}.row-actions{display:flex;gap:6px}.row-actions button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px}.kanban{display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:12px;overflow:auto;padding-bottom:10px}.kan-col{background:#eef1f7;border-radius:16px;padding:12px;min-height:350px}.kan-head{display:flex;justify-content:space-between;font-weight:800;padding:4px 3px 12px}.lead-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:10px;box-shadow:0 4px 12px #2024630a}.lead-card b{display:block}.lead-card small{color:var(--muted)}.lead-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:10px}.mini-avatar{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#ececff;color:var(--navy);font-weight:800}.package-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.package{overflow:hidden;padding:0}.package-hero{height:130px;background:linear-gradient(145deg,#242768,#4f5cac);padding:18px;color:#fff;position:relative}.package:nth-child(2) .package-hero{background:linear-gradient(145deg,#55721e,#98bc43)}.package:nth-child(3) .package-hero{background:linear-gradient(145deg,#146a66,#42afa2)}.package-hero span{position:absolute;right:16px;top:15px;background:#ffffff24;border:1px solid #ffffff44;padding:4px 8px;border-radius:99px;font-size:10px}.package-body{padding:16px}.package-body h3{margin:0 0 6px}.quote-builder{display:grid;grid-template-columns:1fr 330px;gap:16px}.quote-lines{display:grid;grid-template-columns:1.25fr .55fr .48fr .55fr auto;gap:8px;align-items:center;margin-bottom:9px}.summary-box{background:var(--navy);color:#fff;border-radius:16px;padding:18px;position:sticky;top:90px}.summary-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #ffffff1c}.summary-row.total{font-size:20px;border:0;padding-top:15px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.form-grid label{display:grid;gap:6px;color:var(--muted);font-size:12px}.form-grid label.full{grid-column:1/-1}.form-grid input,.form-grid select,.form-grid textarea{border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--ink);background:#fff}.section-label{grid-column:1/-1;font-weight:800;color:var(--ink);padding-top:6px}.modal-backdrop{position:fixed;inset:0;background:#101329b8;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modal-backdrop.open{display:flex}.modal{background:#fff;border-radius:20px;width:min(760px,100%);max-height:92vh;overflow:auto;box-shadow:var(--shadow)}.modal.wide{width:min(920px,100%)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:19px 21px;border-bottom:1px solid var(--line)}.modal-head h2{margin:0}.modal-body{padding:21px}.modal-foot{padding:15px 21px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:9px}.close{border:0;background:#eef1f6;border-radius:9px;width:34px;height:34px}.toast{position:fixed;right:20px;bottom:20px;background:var(--navy);color:#fff;padding:13px 16px;border-radius:12px;box-shadow:var(--shadow);transform:translateY(100px);opacity:0;transition:.25s;z-index:200}.toast.show{transform:none;opacity:1}.bottom-nav{display:none}.empty{padding:35px;text-align:center;color:var(--muted)}.progress{height:8px;background:#edf0f5;border-radius:99px;overflow:hidden;margin-top:7px}.progress i{display:block;height:100%;background:var(--orange)}.visa-panel{grid-column:1/-1;background:#f6f8ed;border:1px solid #dce7c5;border-radius:14px;padding:14px}.visa-panel h3{margin:0 0 8px}.live{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-size:12px}.live:before{content:'';width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #e3f7ee}.stage-list{display:grid;gap:10px}.stage-item{display:flex;gap:12px;align-items:flex-start;padding:10px;border-radius:12px;background:#f7f8fc}.stage-item.done .stage-dot{background:var(--green)}.stage-item.current{background:#fff5d8}.stage-dot{width:14px;height:14px;border-radius:50%;background:#ccd2df;margin-top:3px;flex:0 0 auto}.notice{border-left:4px solid var(--yellow);background:#fff8e8;padding:12px 14px;border-radius:8px;margin-bottom:14px}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.package-grid{grid-template-columns:repeat(2,1fr)}.grid-2,.quote-builder{grid-template-columns:1fr}.summary-box{position:static}}
+@media(max-width:760px){.sidebar{transform:translateX(-100%);transition:.25s;width:276px}.sidebar.open{transform:none}.main{margin-left:0}.topbar{height:62px;padding:0 13px}.menu-btn{display:block}.search input{padding-left:10px}.search kbd,.user-name{display:none}.content{padding:18px 13px 84px}.page-head{display:block}.page-head .actions{margin-top:14px}.page-head h1{font-size:23px}.stats{grid-template-columns:1fr 1fr;gap:10px}.stat{padding:14px}.stat strong{font-size:22px}.grid-2,.package-grid{grid-template-columns:1fr}.card{padding:15px}.form-grid{grid-template-columns:1fr}.form-grid label.full,.section-label,.visa-panel{grid-column:auto}.quote-lines{grid-template-columns:1fr 1fr}.quote-lines .line-name{grid-column:1/-1}.bottom-nav{position:fixed;display:flex;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);z-index:25;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom))}.bottom-nav button{border:0;background:transparent;color:var(--muted);font-size:10px;display:grid;gap:2px;place-items:center}.bottom-nav button span{font-size:19px}.bottom-nav button.active{color:var(--orange)}.filters .field{min-width:0;flex:1}.kanban{scroll-snap-type:x mandatory}.kan-col{scroll-snap-align:start;width:82vw}.modal-backdrop{align-items:flex-end;padding:0}.modal{border-radius:20px 20px 0 0;max-height:94vh}.top-actions .icon-btn:first-child{display:none}}
+@media(max-width:390px){.stats{grid-template-columns:1fr}.top-actions{gap:5px}.icon-btn,.avatar{width:36px;height:36px}}
+
+/* Keep the original design; let fields fit their existing grid and accept typed amounts. */
+.quote-lines>*{min-width:0}.quote-lines input{width:100%}.field:focus,input:focus,select:focus,textarea:focus{outline:2px solid var(--orange);outline-offset:1px}
+[aria-invalid="true"]{border-color:var(--red)!important}button:disabled{opacity:.5;cursor:not-allowed}.form-error{color:var(--red);grid-column:1/-1}
+.quote-lines{grid-template-columns:minmax(100px,1.25fr) minmax(120px,.8fr) minmax(65px,.48fr) minmax(100px,.7fr) auto}
+@media(max-width:760px){.quote-lines{grid-template-columns:1fr 1fr}}
+#printArea{display:none}.print-document{color:#18213a;background:white;font:12px/1.5 Arial,sans-serif;overflow-wrap:anywhere}.print-document h1{color:#242768}.print-document h2{font-size:17px;margin-top:24px}.print-document table{min-width:0;table-layout:fixed}.print-document th,.print-document td{white-space:normal;overflow-wrap:anywhere;padding:8px}.print-document pre{white-space:pre-wrap;font:inherit}.print-document .total{text-align:right;font-size:18px;font-weight:bold}.print-document tr{break-inside:avoid}
+@media print{@page{size:A4;margin:16mm}body{background:#fff}.app,.modal-backdrop,.toast{display:none!important}#printArea{display:block!important}.print-document h1,.print-document h2{break-after:avoid}.print-document thead{display:table-header-group}}
+</style></head>
+<body><div class="app">
+<aside class="sidebar" id="sidebar"><div class="brand"><div class="brand-mark">H✈</div><div><b>Hindavi Tourism</b><small>Create Your Memories</small></div></div><div class="nav-group">Workspace</div>
+<button class="nav active" data-page="dashboard"><span class="ico">⌂</span>Dashboard</button><button class="nav" data-page="leads"><span class="ico">◎</span>Leads<span class="pill" id="leadPill">0</span></button><button class="nav" data-page="quotations"><span class="ico">▤</span>Quotations</button><button class="nav" data-page="packages"><span class="ico">✦</span>Packages</button><button class="nav" data-page="customers"><span class="ico">♙</span>Customers</button><div class="nav-group">Operations</div><button class="nav" data-page="bookings"><span class="ico">▣</span>Bookings</button><button class="nav" data-page="visa"><span class="ico">▧</span>Visa Cases<span class="pill" id="visaPill">0</span></button><button class="nav" data-page="payments"><span class="ico">₹</span>Payments</button><button class="nav" data-page="suppliers"><span class="ico">♜</span>Suppliers</button><div class="nav-group">Management</div><button class="nav" data-page="staff"><span class="ico">♟</span>Staff</button><button class="nav" data-page="reports"><span class="ico">◫</span>Reports</button><button class="nav" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
+<main class="main"><header class="topbar"><button class="icon-btn menu-btn" id="menuBtn">☰</button><div class="search"><input id="globalSearch" placeholder="Search leads, bookings, customers..."><kbd>Ctrl K</kbd></div><div class="top-actions"><button class="icon-btn" id="quickWhatsApp" title="WhatsApp">◉</button><button class="icon-btn" id="notificationBtn" title="Notifications">♢</button><span class="user-name"><b>Admin</b><br><small class="muted">Hindavi Tourism</small></span><div class="avatar">HT</div></div></header>
+<div class="content"><div id="storageNotice" class="notice hidden" role="alert"></div>
+<section class="page active" id="dashboard"><div class="page-head"><div><h1>Namaskar, welcome back 👋</h1><p>Local prototype · changes are saved in this browser. Export a backup regularly.</p></div><div class="actions"><button class="btn" id="exportOps">Export operations</button><button class="btn primary" data-modal="leadModal">＋ Add lead</button></div></div><div class="stats" id="dashboardStats"></div><div class="grid-2 dash-charts"><div class="card"><div class="card-title"><h3>Upcoming travel pipeline</h3><div class="chart-legend"><span class="legend-key">Leads</span><span class="legend-key booking">Bookings</span></div></div><div class="ops-chart" id="pipelineChart"></div></div><div class="card"><div class="card-title"><h3>Operational health</h3><small class="muted">Recorded completion</small></div><div class="health-list" id="healthChart"></div></div></div><div class="grid-2"><div class="card"><div class="card-title"><h3>Critical operations</h3><button class="link" data-page-link="bookings">View bookings</button></div><div id="criticalOps"></div></div><div class="card"><div class="card-title"><h3>Follow-ups due</h3><button class="link" data-page-link="leads">View all</button></div><div id="followups"></div></div></div></section>
+<section class="page" id="leads"><div class="page-head"><div><h1>Lead Management</h1><p>Track each enquiry from first contact to booking.</p></div><div class="actions"><button class="btn" id="toggleLeadView">Table view</button><button class="btn primary" data-modal="leadModal">＋ Add lead</button></div></div><div class="filters"><input class="field" id="leadSearch" placeholder="Search leads"><select class="field" id="sourceFilter"><option value="">All sources</option><option>Website</option><option>WhatsApp</option><option>Instagram</option><option>Referral</option></select></div><div class="kanban" id="leadKanban"></div><div class="table-wrap hidden" id="leadTableWrap"><table><thead><tr><th>Lead</th><th>Destination</th><th>Travel date</th><th>Source</th><th>Status</th><th>Owner</th><th>Action</th></tr></thead><tbody id="leadTable"></tbody></table></div></section>
+<section class="page" id="quotations"><div class="page-head"><div><h1>Quotation Builder</h1><p>Build a quotation, preview it and choose Print / Save as PDF. Draft saves automatically.</p></div><button class="btn primary" id="newQuote">＋ New quotation</button></div><div class="quote-builder"><div class="card"><div class="form-grid" id="quoteForm"><label>Customer name<input id="qCustomer" value="Priya Patil"></label><label>Mobile<input id="qPhone" value="9876543210"></label><label>Email<input id="qEmail" type="email" value="priya@example.com"></label><label>Destination<input id="qDestination" value="Varkala with Poovar Island"></label><label>Travel start<input id="qStart" type="date" value="2026-10-15"></label><label>Duration<input id="qDuration" value="03 Nights / 04 Days"></label><label>Travellers<input id="travellers" type="number" min="1" max="10000" step="1" value="4"></label><label>Departure city<input id="qDeparture" value="Pune"></label><label>Tax rate % (verify applicability)<input id="qTax" type="number" min="0" max="100" step="0.01" value="5"></label><label class="full">Day-wise itinerary<textarea id="qItinerary" rows="8">DAY 01: ARRIVAL TRIVANDRUM TO VARKALA | Arrival, airport pickup, Varkala Cliff and Janardhana Swamy Temple. Overnight at hotel.
+DAY 02: VARKALA TO POOVAR | Breakfast, Aazhimala Shiva Temple and Poovar backwater cruise. Overnight at hotel.
+DAY 03: POOVAR TO TRIVANDRUM | Breakfast, Padmanabhaswamy Temple and Vizhinjam Lighthouse. Overnight at hotel.
+DAY 04: DEPARTURE | Breakfast, leisure time and airport drop.</textarea></label><label class="full">Hotels / flight details<textarea id="qTravelDetails" rows="5">HOTEL: Varkala - Elixir Cliff or similar - 1 night
+HOTEL: Poovar - Poovar Island Resort or similar - 2 nights
+FLIGHT: 15-10-26 | Pune | Trivandrum | Indigo | Bangalore | 06:40 | 11:50
+FLIGHT: 18-10-26 | Trivandrum | Pune | Indigo | Bangalore | 09:10 | 13:10</textarea></label></div><div class="card-title" style="margin-top:18px"><h3>Cost items</h3><button class="link" id="addQuoteLine">＋ Add item</button></div><div id="quoteLines"></div></div><aside class="summary-box"><h3 style="margin-top:0">Quotation summary</h3><div class="summary-row"><span>Base cost</span><b id="quoteCost">₹0</b></div><div class="summary-row"><span>Markup</span><b id="quoteMarkup">₹0</b></div><div class="summary-row"><span>Tax (<span id="quoteTaxRate">5</span>%)</span><b id="quoteGst">₹0</b></div><div class="summary-row total"><span>Total</span><b id="quoteTotal">₹0</b></div><div class="summary-row"><span>Per person</span><b id="quotePp">₹0</b></div><button class="btn primary" style="width:100%;margin-top:18px" id="generateQuote">Generate quotation PDF</button><button class="btn" style="width:100%;margin-top:8px;background:transparent;color:#fff;border-color:#ffffff45" id="shareQuote">Share quotation</button></aside></div></section>
+<section class="page" id="packages"><div class="page-head"><div><h1>Package Library</h1><p>Ready itineraries for faster quotations.</p></div><button class="btn primary" data-modal="packageModal">＋ Create package</button></div><div class="package-grid" id="packageGrid"></div></section>
+<section class="page" id="customers"><div class="page-head"><div><h1>Customers</h1><p>Profiles, documents and travel history.</p></div><button class="btn primary" data-modal="customerModal">＋ Add customer</button></div><div id="customersTable"></div></section>
+<section class="page" id="bookings"><div class="page-head"><div><h1>Booking Management</h1><p>Click Pending to see exactly which confirmation stage is incomplete.</p></div><button class="btn primary" id="openBooking">＋ New booking</button></div><div id="bookingsTable"></div></section>
+<section class="page" id="visa"><div class="page-head"><div><h1>Visa Cases</h1><p>Live checklist, appointment and application status.</p></div><button class="btn primary" data-modal="visaModal">＋ New visa case</button></div><div id="visaSummary" class="stats"></div><div id="visaTable"></div></section>
+<section class="page" id="payments"><div class="page-head"><div><h1>Payments & Accounts</h1><p>Customer invoice balances and receipts. Tax rates are prototype inputs; verify before use.</p></div><button class="btn primary" data-modal="paymentModal">＋ Record payment</button></div><div id="paymentStats" class="stats"></div><div id="paymentsTable"></div></section>
+<section class="page" id="suppliers"><div class="page-head"><div><h1>Suppliers</h1><p><span class="live">Saved supplier ledger</span> · <span id="supplierUpdated"></span></p></div><div class="actions"><button class="btn" id="refreshSuppliers">↻ Refresh</button><button class="btn primary" data-modal="supplierModal">＋ Add supplier</button></div></div><div id="supplierStats" class="stats"></div><div id="suppliersTable"></div></section>
+<section class="page" id="staff"><div class="page-head"><div><h1>Staff Performance</h1><p>Performance calculated from recorded leads and linked bookings.</p></div></div><div id="staffTable"></div></section>
+<section class="page" id="reports"><div class="page-head"><div><h1>Operations Reports</h1><p>Lead sources, destinations and fulfilment performance.</p></div><button class="btn" id="downloadReport">Download report</button></div><div class="grid-2"><div class="card"><div class="card-title"><h3>Lead source conversion</h3></div><div id="sourceReport"></div></div><div class="card"><div class="card-title"><h3>Top destinations</h3></div><div id="destinationReport"></div></div></div></section>
+<section class="page" id="settings"><div class="page-head"><div><h1>Settings</h1><p>Business profile and document preferences.</p></div><div class="actions"><button class="btn" id="exportBackup">Export backup</button><button class="btn" id="importBackup">Restore backup</button><input id="backupFile" type="file" accept="application/json,.json" hidden><button class="btn primary" id="saveSettings">Save changes</button></div></div><div class="card"><div class="form-grid"><label>Business name<input id="sBusiness" value="Hindavi Tourism"></label><label>GSTIN<input id="sGstin" value="27DQYPK4262R1ZQ"></label><label>WhatsApp number<input id="sPhone" value="+91 7387154869"></label><label>Email<input type="email" id="sEmail" value="hindavitourism@gmail.com"></label><label class="full">Office address<textarea id="sAddress" rows="3">Shop No. 02, Chandra Pushpa Sankul, Near HDFC Bank, Kalda Corner, Chhatrapati Sambhajinagar, Maharashtra - 431005</textarea></label><label class="full">Payment instructions (optional)<textarea id="sPayment" rows="3" placeholder="Verified bank / UPI instructions"></textarea></label><label class="full">Quotation terms (optional)<textarea id="sTerms" rows="4" placeholder="Your approved inclusions, exclusions, payment and cancellation terms"></textarea></label></div></div></section>
+</div></main><nav class="bottom-nav"><button class="active" data-page="dashboard"><span>⌂</span>Home</button><button data-page="leads"><span>◎</span>Leads</button><button data-page="quotations"><span>▤</span>Quotes</button><button data-page="bookings"><span>▣</span>Bookings</button><button data-page="visa"><span>▧</span>Visas</button></nav></div>
+<div class="modal-backdrop" id="genericModal"><div class="modal"><div class="modal-head"><h2 id="modalTitle">Add item</h2><button class="close" data-close>×</button></div><form id="genericForm"><div class="modal-body"><div class="form-grid" id="modalFields"></div></div><div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button type="submit" class="btn primary">Save</button></div></form></div></div>
+<div class="modal-backdrop" id="bookingModal"><div class="modal wide"><div class="modal-head"><h2>New booking</h2><button class="close" data-close>×</button></div><form id="bookingForm"><div class="modal-body"><div class="form-grid"><label>Customer name<input name="customer" required></label><label>Mobile<input name="phone" required></label><label>Trip type<select name="tripType" id="tripType"><option>Domestic</option><option>International</option></select></label><label>Destination<input name="destination" id="bookingDestination" list="destinations" required><datalist id="destinations"><option>Dubai</option><option>Singapore</option><option>Thailand</option><option>Schengen</option><option>Bali</option><option>Kashmir</option><option>Kerala</option></datalist></label><label>Departure<input name="departure" type="date" required></label><label>Return<input name="return" type="date" required></label><label>Total value<input name="total" type="text" inputmode="decimal" data-money placeholder="e.g. 1,50,000.50" required></label><label>Services<input name="services" value="Flight, Hotel, Transfer" required></label><label>Tax rate % (included in total)<input name="taxRate" type="number" min="0" max="100" step="0.01" value="5" required></label><div class="visa-panel hidden" id="bookingVisaPanel"></div></div></div><div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button class="btn primary">Create booking</button></div></form></div></div>
+<div class="modal-backdrop" id="detailModal"><div class="modal"><div class="modal-head"><h2 id="detailTitle">Details</h2><button class="close" data-close>×</button></div><div class="modal-body" id="detailBody"></div><div class="modal-foot" id="detailFoot"><button class="btn" data-close>Close</button></div></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="printArea"></div>
+<script>
+const seed={leads:[{id:1,name:'Priya Patil',phone:'9876543210',destination:'Kashmir',date:'2026-10-15',source:'Website',status:'New',owner:'Snehal'},{id:2,name:'Rahul Shah',phone:'9821011442',destination:'Dubai',date:'2026-11-08',source:'WhatsApp',status:'Follow-up',owner:'Amit'},{id:3,name:'Anita Joshi',phone:'9967233021',destination:'Kerala',date:'2026-09-20',source:'Instagram',status:'Quotation',owner:'Neha'}],customers:[{name:'Priya Patil',phone:'9876543210',documents:'Passport, Aadhaar',lastTrip:'Goa - 2025'},{name:'Rahul Shah',phone:'9821011442',documents:'Passport',lastTrip:'Singapore - 2024'}],bookings:[{id:'HT-26081',customer:'Sameer More',phone:'9769088214',trip:'Europe',type:'International',services:'Flight, Hotel, Visa',departure:'2026-12-02',total:640000,status:'Confirmed',stage:5,invoice:'INV-1082'},{id:'HT-26077',customer:'Anita Joshi',phone:'9967233021',trip:'Kerala',type:'Domestic',services:'Hotel, Transfer',departure:'2026-09-20',total:98000,status:'Pending',stage:2,invoice:null}],visas:[{id:'V-301',applicant:'Sameer More',country:'Schengen',appointment:'2026-09-05',done:8,total:10,fee:9800,status:'Documents pending'},{id:'V-302',applicant:'Ayesha Khan',country:'Dubai',appointment:'Not required',done:6,total:6,fee:7200,status:'Approved'},{id:'V-303',applicant:'Rahul Shah',country:'Singapore',appointment:'2026-08-18',done:5,total:7,fee:3400,status:'Submitted'}],payments:[{invoice:'INV-1082',customer:'Sameer More',total:640000,received:320000,due:'2026-08-30',status:'Part paid'},{invoice:'INV-1078',customer:'Anita Joshi',total:98000,received:98000,due:'2026-08-05',status:'Paid'}],suppliers:[{id:1,name:'Snowline Hotels',type:'Hotel',location:'Kashmir',outstanding:48000,rating:4.8,status:'Available',lastRate:4250},{id:2,name:'Desert Pearl DMC',type:'DMC',location:'Dubai',outstanding:110000,rating:4.6,status:'Available',lastRate:12900},{id:3,name:'Konkan Wheels',type:'Transport',location:'Maharashtra',outstanding:12500,rating:4.7,status:'Limited',lastRate:4800}],packages:[['Kashmir Paradise','6N / 7D','Srinagar · Gulmarg · Pahalgam','₹42,500'],['Dubai Delight','4N / 5D','Dubai · Abu Dhabi','₹58,900'],['Kerala Backwaters','5N / 6D','Munnar · Thekkady · Alleppey','₹36,800']]};
+'use strict';
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = x => JSON.parse(JSON.stringify(x));
+const uid = prefix => prefix + '-' + crypto.randomUUID().replace(/-/g,'').slice(0,16).toUpperCase();
+const today = () => {const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
+const slug = s => String(s).toLowerCase().replace(/[^a-z]/g,'');
+const money = n => '₹' + Number(n).toLocaleString('en-IN',{minimumFractionDigits:Number(n)%1?2:0,maximumFractionDigits:2});
+const dateFmt = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '') ? new Date(d+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : (d || '—');
+// CORE START: shared, dependency-free validation and accounting (covered by check.cjs).
+function parseAmount(value) {
+  const s = String(value ?? '').trim().replace(/^(?:₹|INR\s*|Rs\.?\s*)\s*/i,'');
+  if (!/^(?:\d+|\d{1,3}(?:,\d{3})+|\d{1,2}(?:,\d{2})*,\d{3})(?:\.\d{1,2})?$/.test(s)) throw Error('Enter a rupee amount, e.g. 150000 or ₹1,50,000.50 (up to 2 decimals).');
+  const n = Number(s.replace(/,/g,''));
+  if (!Number.isFinite(n) || n < 0 || n > 9999999999.99) throw Error('Amount must be between ₹0 and ₹9,99,99,99,999.99.');
+  return Math.round(n * 100) / 100;
+}
+const paise = n => Math.round(n * 100);
+function bounded(value,min,max,label,integer=false) {
+  const n = Number(value);
+  if (String(value).trim()==='' || !Number.isFinite(n) || n<min || n>max || (integer && !Number.isInteger(n))) throw Error(`${label} must be ${integer?'a whole number ':''}between ${min} and ${max}.`);
+  return n;
+}
+function phoneNumber(value) {
+  const s = String(value).trim();
+  if (!/^[+\d\s()-]+$/.test(s)) throw Error('Enter a valid phone number.');
+  let digits = s.replace(/\D/g,'');
+  if (digits.startsWith('00')) digits = digits.slice(2);
+  if (digits.length===11 && digits[0]==='0') digits = digits.slice(1);
+  if (digits.length===10 && !s.startsWith('+') && !s.startsWith('00')) digits = '91'+digits;
+  if (!/^[1-9]\d{7,14}$/.test(digits)) throw Error('Use a 10-digit Indian mobile or an international number with country code.');
+  return digits;
+}
+function validDate(value,optional=false) {
+  if (!value && optional) return '';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || new Date(value+'T00:00:00Z').toISOString().slice(0,10)!==value) throw Error('Enter a valid date.');
+  return value;
+}
+function quoteTotals(items,travellers,taxRate) {
+  bounded(travellers,1,10000,'Travellers',true); bounded(taxRate,0,100,'Tax rate');
+  let cost=0, subtotal=0;
+  const lines=items.map(item=>{
+    const c=paise(parseAmount(item.cost)), m=bounded(item.markup,0,1000,'Markup');
+    const total=Math.round(c*(1+m/100)); cost+=c; subtotal+=total;
+    return {...item,cost:c/100,markup:m,total:total/100};
+  });
+  const tax=Math.round(subtotal*taxRate/100), total=subtotal+tax;
+  if (total>999999999999) throw Error('Quotation exceeds the supported amount.');
+  return {items:lines,cost:cost/100,markup:(subtotal-cost)/100,subtotal:subtotal/100,tax:tax/100,total:total/100,perPerson:Math.round(total/travellers)/100};
+}
+function paymentStatus(p,date) {return paise(p.received)>=paise(p.total)?'Paid':p.due && p.due<date?'Overdue':p.received>0?'Part paid':'Unpaid';}
+function applyReceipt(payment,amount,entry) {
+  const cents=paise(parseAmount(amount));
+  if (cents<=0) throw Error('Payment must be greater than zero.');
+  if (paise(payment.received)+cents>paise(payment.total)) throw Error('Payment exceeds the outstanding balance.');
+  payment.received=(paise(payment.received)+cents)/100;
+  (payment.receipts ||= []).push({...entry,amount:cents/100});
+}
+function csvCell(value) {let s=String(value ?? ''); if (/^[\s]*[=+@-]/.test(s)) s="'"+s; return '"'+s.replace(/"/g,'""')+'"';}
+// CORE END
+const KEY='hindaviCRM_v2', collections=['leads','customers','bookings','visas','payments','suppliers','packages'];
+const leadStates=['New','Follow-up','Quotation','Confirmed','Lost'];
+const visaStates=['Documents pending','Appointment booked','Submitted','Approved','Rejected'];
+const bookingStages=['Customer approval','Advance payment','Flight confirmation','Hotel confirmation','Transfers & activities','Ready to travel'];
+const defaultSettings={business:$('#sBusiness').value,gstin:$('#sGstin').value,phone:$('#sPhone').value,email:$('#sEmail').value,address:$('#sAddress').value,payment:'',terms:''};
+function migrate(data) {
+  if (!data || typeof data!=='object' || collections.some(k=>!Array.isArray(data[k]))) throw Error('Backup must contain all seven CRM record collections.');
+  if(data.version && data.version!==2)throw Error('Unsupported data version.');
+  if(data.settings && (Array.isArray(data.settings) || typeof data.settings!=='object'))throw Error('Invalid settings.');
+  const d=clone(data); d.version=2; d.settings={...defaultSettings,...d.settings};
+  for(const value of Object.values(d.settings))if(typeof value!=='string')throw Error('Invalid business profile.');
+  for(const key of collections) {
+    d[key].forEach((r,i)=>{
+      if (key==='packages' && Array.isArray(r)) d[key][i]={id:uid('PKG'),name:r[0],duration:r[1],route:r[2],price:parseAmount(r[3]),type:/Dubai|Singapore|Thailand|Bali|Europe/i.test(r[0])?'International':'Domestic',itinerary:'',details:''};
+      else if (!r || typeof r!=='object' || Array.isArray(r)) throw Error(`Invalid ${key} record.`);
+      const x=d[key][i]; x.id ||= uid(key.slice(0,3).toUpperCase());
+      if(!['string','number'].includes(typeof x.id))throw Error('Invalid record ID.');
+      for(const field of ({leads:['name','phone','destination','date','source','status','owner','followup'],customers:['name','phone','documents','lastTrip'],bookings:['customer','phone','trip','type','services','departure','return','invoice','invoiceDate'],visas:['applicant','country','appointment','status'],payments:['invoice','customer','due'],suppliers:['name','type','location','status'],packages:['name','duration','route','type','itinerary','details']}[key]))if(x[field]!=null && typeof x[field]!=='string')throw Error(`Invalid ${key} ${field}.`);
+      for(const field of ({bookings:['total'],visas:['fee'],payments:['total','received'],suppliers:['lastRate','outstanding'],packages:['price']}[key] || [])) x[field]=parseAmount(x[field] ?? 0);
+      if (key==='leads') {x.owner ||= 'Unassigned'; if(!leadStates.includes(x.status)) throw Error('Invalid lead status.');}
+      if (key==='bookings') {x.stage=bounded(x.stage ?? 0,0,5,'Booking stage',true); x.taxRate=bounded(x.taxRate ?? 5,0,100,'Tax rate'); if(!['Pending','Confirmed'].includes(x.status)) throw Error('Invalid booking status.');}
+      if (key==='visas') {x.total=bounded(x.total,1,100,'Checklist total',true);x.done=bounded(x.done,0,x.total,'Checklist complete',true);if(!visaStates.includes(x.status)) throw Error('Invalid visa status.');}
+      if (key==='suppliers') x.rating=bounded(x.rating,0,5,'Rating');
+      if (key==='payments') {
+        if(!x.invoice?.trim() || !x.customer?.trim() || x.received>x.total) throw Error('Invalid invoice details or received balance.');
+        x.receipts ||= [];if(!Array.isArray(x.receipts))throw Error('Invalid receipt history.');
+        for(const r of x.receipts){if(!r || typeof r!=='object')throw Error('Invalid receipt.');r.amount=parseAmount(r.amount);validDate(r.date);if(r.amount<=0 || typeof r.method!=='string' || typeof r.reference!=='string')throw Error('Invalid receipt details.');}
+        const receiptCents=x.receipts.reduce((s,r)=>s+paise(r.amount),0);x.openingReceived=parseAmount(x.openingReceived ?? (paise(x.received)-receiptCents)/100);
+        if(paise(x.openingReceived)+receiptCents!==paise(x.received))throw Error('Receipt history does not match the received balance.');
+      }
+      if (key==='packages') {x.itinerary ||= '';x.details ||= '';x.type ||= 'Domestic';}
+    });
+    if (new Set(d[key].map(x=>String(x.id))).size!==d[key].length) throw Error(`Duplicate IDs in ${key}.`);
+  }
+  if(new Set(d.payments.map(p=>String(p.invoice).trim().toUpperCase())).size!==d.payments.length) throw Error('Duplicate invoice numbers found. Resolve duplicates in the backup before restoring; totals will not be guessed.');
+  d.bookings.forEach(b=>{
+    let p=d.payments.find(x=>x.invoice===b.invoice);
+    if(!p && !b.invoice) {const matches=d.payments.filter(x=>x.customer===b.customer && x.total===b.total && !x.bookingId && !d.bookings.some(other=>other!==b && other.invoice===x.invoice)); if(matches.length===1) p=matches[0];}
+    if(p) {if(p.total!==b.total || (p.bookingId && p.bookingId!==b.id))throw Error('Invoice and booking do not agree.');b.invoice=p.invoice;p.bookingId=b.id;}
+    b.completed ||= bookingStages.map((_,i)=>i<b.stage || b.status==='Confirmed');
+    if(!Array.isArray(b.completed) || b.completed.length!==6 || b.completed.some(x=>typeof x!=='boolean'))throw Error('Invalid booking checklist.');
+    if(b.status==='Confirmed' && !b.completed.every(Boolean))throw Error('Confirmed booking has an incomplete checklist.');
+    b.invoiceDate ||= '';
+  });
+  if(d.quote){if(!d.quote.fields || typeof d.quote.fields!=='object' || !Array.isArray(d.quote.items) || d.quote.items.some(i=>!i || typeof i.name!=='string' || !['string','number'].includes(typeof i.cost) || !['string','number'].includes(typeof i.markup)))throw Error('Invalid quotation draft.');for(const v of Object.values(d.quote.fields))if(typeof v!=='string')throw Error('Invalid quotation field.');}
+  return d;
+}
+let db, lastRaw=null, storageBlocked=false, startupMessage='';
+try {
+  lastRaw=localStorage.getItem(KEY);
+  const legacy=lastRaw ? null : localStorage.getItem('hindaviCRM');
+  db=migrate(JSON.parse(lastRaw || legacy || JSON.stringify(seed)));
+  if(!lastRaw) {const oldSettings=localStorage.getItem('hindaviSettings'); if(oldSettings) db.settings={...defaultSettings,...JSON.parse(oldSettings)};}
+} catch(e) {db=migrate(seed);storageBlocked=true;startupMessage='Saved data could not be loaded. Demo records are shown; saving is blocked to protect your original data. Export a backup for recovery. '+e.message;}
+function toastMsg(message) {$('#toast').textContent=message;$('#toast').classList.add('show');clearTimeout(toastMsg.timer);toastMsg.timer=setTimeout(()=>$('#toast').classList.remove('show'),5000);}
+function notice(message) {$('#storageNotice').textContent=message;$('#storageNotice').classList.toggle('hidden',!message);}
+function mutate(change,render=true) {
+  const before=clone(db);
+  try {
+    if(storageBlocked) throw Error('Saving is blocked. Export a backup, then reload or restore valid data.');
+    if(localStorage.getItem(KEY)!==lastRaw) throw Error('Data changed in another tab. Export your work and reload before saving.');
+    change(db); const raw=JSON.stringify(db);localStorage.setItem(KEY,raw);lastRaw=raw;
+    notice('');if(render) renderAll(); return true;
+  } catch(e) {db=before;notice('Not saved: '+e.message);toastMsg('Not saved: '+e.message);return false;}
+}
+window.addEventListener('storage',e=>{if(e.key===KEY) notice('Another tab changed the saved CRM. Export unsaved work and reload before editing.');});
+const badge=s=>`<span class="status ${slug(s)}">${esc(s)}</span>`;
+const action=(label,fn,id='',extra='')=>`<button class="btn" data-action="${fn}" data-id="${esc(id)}" ${extra}>${esc(label)}</button>`;
+const table=(heads,rows)=>`<div class="table-wrap"><table><thead><tr>${heads.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(row=>'<tr>'+row.map(c=>`<td>${c}</td>`).join('')+'</tr>').join(''):`<tr><td colspan="${heads.length}" class="empty">No records</td></tr>`}</tbody></table></div>`;
+const stats=rows=>rows.map(([label,value])=>`<div class="stat"><div class="stat-top">${esc(label)}</div><strong>${esc(value)}</strong></div>`).join('');
+const byId=(key,id)=>{const record=db[key].find(x=>String(x.id)===String(id));if(!record) throw Error('Record not found.');return record;};
+function showPage(id) {if(!$('#'+id)?.classList.contains('page'))return;$$('.page').forEach(x=>x.classList.toggle('active',x.id===id));$$('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===id));$('#sidebar').classList.remove('open');scrollTo(0,0);}
+let returnFocus;
+function showModal(id) {if(!$('.modal-backdrop.open'))returnFocus=document.activeElement;$$('.modal-backdrop').forEach(m=>m.classList.toggle('open',m.id===id));$('#'+id).querySelector('input,select,textarea,button')?.focus();}
+function closeModals() {$$('.modal-backdrop').forEach(m=>m.classList.remove('open'));returnFocus?.focus();}
+function detail(title,body,foot=action('Close','close')) {$('#detailTitle').textContent=title;$('#detailBody').innerHTML=body;$('#detailFoot').innerHTML=foot;showModal('detailModal');}
+function renderDashboard() {
+  const pending=db.bookings.filter(x=>x.status==='Pending'),active=db.visas.filter(x=>!['Approved','Rejected'].includes(x.status));
+  $('#dashboardStats').innerHTML=[['New leads',db.leads.filter(x=>x.status==='New').length,'Open enquiries','leads'],['Active bookings',db.bookings.length,`${pending.length} awaiting confirmation`,'bookings'],['Pending stages',pending.length,'Click to review','bookings'],['Visas pending',active.length,'Open applications','visa']].map(x=>`<div class="stat clickable" role="button" tabindex="0" data-page-link="${x[3]}"><div class="stat-top">${x[0]}</div><strong>${x[1]}</strong><span>${x[2]}</span></div>`).join('');
+  const series=Array.from({length:6},(_,i)=>{const d=new Date();d.setDate(1);d.setMonth(d.getMonth()+i);const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;return {label:d.toLocaleDateString('en-IN',{month:'short'}),leads:db.leads.filter(x=>x.status!=='Lost' && String(x.date).startsWith(key)).length,bookings:db.bookings.filter(x=>String(x.departure).startsWith(key)).length};});
+  const max=Math.max(1,...series.flatMap(x=>[x.leads,x.bookings]));
+  $('#pipelineChart').innerHTML=series.map(x=>`<div class="bar-group"><div class="chart-bar" style="height:${Math.max(2,x.leads/max*100)}%" data-value="${x.leads} leads" title="${x.leads} leads"></div><div class="chart-bar booking" style="height:${Math.max(2,x.bookings/max*100)}%" data-value="${x.bookings} bookings" title="${x.bookings} bookings"></div><span class="bar-label">${x.label}</span></div>`).join('');
+  const sum=(arr,key)=>arr.reduce((s,x)=>s+Number(x[key] || 0),0), percent=(a,b)=>b?Math.min(100,Math.round(a/b*100)):0;
+  $('#healthChart').innerHTML=[['Booking readiness',percent(db.bookings.reduce((s,b)=>s+b.completed.filter(Boolean).length,0),db.bookings.length*6)],['Visa documents',percent(sum(db.visas,'done'),sum(db.visas,'total'))],['Payment collection',percent(sum(db.payments,'received'),sum(db.payments,'total'))],['Supplier availability',percent(db.suppliers.filter(x=>x.status==='Available').length,db.suppliers.length)]].map(([label,value])=>`<div class="health-row"><b>${label}</b><div class="progress"><i style="width:${value}%"></i></div><strong>${value}%</strong></div>`).join('');
+  $('#criticalOps').innerHTML=pending.map(b=>`<div class="activity"><i class="dot"></i><div><p><b>${esc(b.customer)}</b> · ${esc(b.trip)}</p><small>Pending: ${esc(bookingStages[b.stage])}</small></div>${action('Review','bookingStage',b.id)}</div>`).join('')+active.map(v=>`<div class="activity"><i class="dot"></i><div><p><b>${esc(v.applicant)}</b> · ${esc(v.country)}</p><small>${esc(v.status)} · ${v.done}/${v.total}</small></div>${action('Review','visaEdit',v.id)}</div>`).join('') || '<div class="empty">Everything is on track.</div>';
+  $('#followups').innerHTML=db.leads.filter(l=>!['Confirmed','Lost'].includes(l.status) && l.followup && l.followup<=today()).sort((a,b)=>a.followup.localeCompare(b.followup)).map(l=>`<div class="activity"><i class="dot"></i><div><p><b>${esc(l.name)}</b> · ${esc(l.destination)}</p><small>${esc(dateFmt(l.followup))}</small></div>${action('Open','leadEdit',l.id)}</div>`).join('') || '<div class="empty">No follow-ups due. Set a follow-up date in a lead.</div>';
+  $('#leadPill').textContent=db.leads.length;$('#visaPill').textContent=active.length;
+  $('#paymentStats').innerHTML=stats([['Received',money(sum(db.payments,'received'))],['Receivable',money((db.payments.reduce((s,p)=>s+paise(p.total)-paise(p.received),0))/100)],['Invoices',db.payments.length],['Overdue',db.payments.filter(p=>paymentStatus(p,today())==='Overdue').length]]);
+}
+function renderLeads() {
+  const search=$('#leadSearch').value.toLowerCase().trim(),source=$('#sourceFilter').value;
+  const arr=db.leads.filter(l=>[l.name,l.destination,l.phone,l.owner].join(' ').toLowerCase().includes(search) && (!source || l.source===source));
+  const buttons=l=>action('Edit','leadEdit',l.id)+action(l.status==='Lost'?'Reopen':'Advance','leadAdvance',l.id,l.status==='Confirmed'?'disabled':'');
+  $('#leadKanban').innerHTML=leadStates.map(status=>`<div class="kan-col"><div class="kan-head"><span>${status}</span><span>${arr.filter(l=>l.status===status).length}</span></div>${arr.filter(l=>l.status===status).map(l=>`<div class="lead-card"><b>${esc(l.name)}</b><small>${esc(l.destination)} · ${esc(dateFmt(l.date))}</small><div class="lead-card-footer"><div>${buttons(l)}</div><span class="mini-avatar" title="${esc(l.owner)}">${esc(l.owner[0])}</span></div></div>`).join('') || '<div class="empty">No leads</div>'}</div>`).join('');
+  $('#leadTable').innerHTML=arr.map(l=>`<tr><td><b>${esc(l.name)}</b><br><small>${esc(l.phone)}</small></td><td>${esc(l.destination)}</td><td>${esc(dateFmt(l.date))}</td><td>${esc(l.source)}</td><td>${badge(l.status)}</td><td>${esc(l.owner)}</td><td class="row-actions">${buttons(l)}${action('Delete','leadDelete',l.id)}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">No leads</td></tr>';
+}
+function renderBookings() {$('#bookingsTable').innerHTML=table(['Booking','Customer','Trip','Services','Departure','Status','Action'],db.bookings.map(b=>[esc(b.id),`${esc(b.customer)}<br><small>${esc(b.phone)}</small>`,esc(b.trip),esc(b.services),esc(dateFmt(b.departure)),`<button class="status ${slug(b.status)}" data-action="bookingStage" data-id="${esc(b.id)}">${esc(b.status)}</button>`,`<div class="row-actions">${action('View stage','bookingStage',b.id)}${action('Edit','bookingEdit',b.id)}${b.status==='Pending'?action('Confirm','bookingConfirm',b.id):action('Invoice PDF','invoice',b.id)+action('Send','invoiceShare',b.id)}</div>`]));}
+function renderVisa() {$('#visaSummary').innerHTML=stats([['Active cases',db.visas.filter(v=>!['Approved','Rejected'].includes(v.status)).length],['Documents pending',db.visas.filter(v=>v.status==='Documents pending').length],['Submitted',db.visas.filter(v=>v.status==='Submitted').length],['Approved',db.visas.filter(v=>v.status==='Approved').length]]);$('#visaTable').innerHTML=table(['Applicant','Country','Appointment','Checklist','Fee','Status','Action'],db.visas.map(v=>[esc(v.applicant),esc(v.country),esc(dateFmt(v.appointment)),`${v.done} / ${v.total}<div class="progress"><i style="width:${v.done/v.total*100}%"></i></div>`,money(v.fee),badge(v.status),action('Update','visaEdit',v.id)]));}
+function renderPayments() {$('#paymentsTable').innerHTML=table(['Invoice','Customer','Total','Received','Balance','Due date','Status','Action'],db.payments.map(p=>[esc(p.invoice),esc(p.customer),money(p.total),money(p.received),money((paise(p.total)-paise(p.received))/100),esc(dateFmt(p.due)),badge(paymentStatus(p,today())),action('Record payment','paymentEdit',p.id,p.received>=p.total?'disabled':'')+action('History','paymentHistory',p.id)]));}
+function renderSuppliers() {$('#supplierStats').innerHTML=stats([['Suppliers',db.suppliers.length],['Available',db.suppliers.filter(s=>s.status==='Available').length],['Outstanding',money(db.suppliers.reduce((s,x)=>s+x.outstanding,0))],['Average rating',db.suppliers.length?(db.suppliers.reduce((s,x)=>s+x.rating,0)/db.suppliers.length).toFixed(1):'—']]);$('#suppliersTable').innerHTML=table(['Supplier','Type','Location','Saved rate','Outstanding','Rating','Availability','Action'],db.suppliers.map(s=>[esc(s.name),esc(s.type),esc(s.location),money(s.lastRate),money(s.outstanding),s.rating+' / 5',badge(s.status),action('Ledger','supplierLedger',s.id)+action('Edit','supplierEdit',s.id)]));$('#supplierUpdated').textContent='Viewed '+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
+function renderStatic() {
+  $('#customersTable').innerHTML=table(['Customer','Contact','Documents (notes only)','Last trip','Action'],db.customers.map(c=>[esc(c.name),esc(c.phone),esc(c.documents),esc(c.lastTrip),action('Edit','customerEdit',c.id)]));
+  $('#packageGrid').innerHTML=db.packages.map(p=>`<article class="card package"><div class="package-hero"><span>${esc(p.type)}</span><small>PACKAGE TEMPLATE</small><h2>${esc(p.name)}</h2></div><div class="package-body"><h3>${esc(p.duration)}</h3><p>${esc(p.route)}</p><b>${money(p.price)} / person (before tax)</b><div class="actions" style="margin-top:14px">${action('Use package','packageUse',p.id)}${action('Edit','packageEdit',p.id)}</div></div></article>`).join('') || '<div class="empty">No packages</div>';
+  const owners=[...new Set(['Snehal','Amit','Neha',...db.leads.map(l=>l.owner)])];
+  $('#staffTable').innerHTML=table(['Team member','Leads','Follow-ups due','Linked bookings','Conversion'],owners.map(owner=>{const leads=db.leads.filter(l=>l.owner===owner),won=leads.filter(l=>db.bookings.some(b=>String(b.leadId)===String(l.id))).length;return [esc(owner),leads.length,leads.filter(l=>l.followup && l.followup<=today() && !['Lost','Confirmed'].includes(l.status)).length,won,leads.length?(won/leads.length*100).toFixed(1)+'%':'0%'];}));
+  const sources=[...new Set(db.leads.map(l=>l.source))];
+  $('#sourceReport').innerHTML=sources.map(s=>{const leads=db.leads.filter(l=>l.source===s),won=leads.filter(l=>db.bookings.some(b=>String(b.leadId)===String(l.id))).length,rate=won/leads.length*100;return `<div style="margin:15px 0"><b>${esc(s)}</b><span style="float:right">${won}/${leads.length} converted · ${rate.toFixed(1)}%</span><div class="progress"><i style="width:${rate}%"></i></div></div>`;}).join('') || '<div class="empty">No leads</div>';
+  const destinations={};db.bookings.forEach(b=>destinations[b.trip]=(destinations[b.trip]||0)+1);
+  $('#destinationReport').innerHTML=Object.entries(destinations).sort((a,b)=>b[1]-a[1]).map(([name,count],i)=>`<div class="activity"><span class="mini-avatar">${i+1}</span><div><b>${esc(name)}</b><br><small>${count} booking${count===1?'':'s'}</small></div></div>`).join('') || '<div class="empty">No bookings</div>';
+}
+function renderAll() {renderDashboard();renderLeads();renderBookings();renderVisa();renderPayments();renderSuppliers();renderStatic();}
+
+// One existing modal handles add/edit forms. No UI framework or external services.
+const fields={
+  leads:[['name','Name'],['phone','Phone','tel'],['destination','Destination'],['date','Travel date','date'],['source','Source',['Website','WhatsApp','Instagram','Referral']],['owner','Owner',['Snehal','Amit','Neha','Unassigned']],['followup','Follow-up date','date',true],['status','Status',leadStates]],
+  customers:[['name','Full name'],['phone','Mobile','tel'],['documents','Documents (notes only)','text',true],['lastTrip','Last trip','text',true]],
+  visas:[['applicant','Applicant'],['country','Country'],['appointment','Appointment','date',true],['fee','Visa fee','money'],['total','Checklist total','integer'],['done','Documents complete','integer'],['status','Status',visaStates]],
+  suppliers:[['name','Supplier name'],['type','Type',['Hotel','DMC','Transport','Airline','Other']],['location','Location'],['lastRate','Saved rate','money'],['outstanding','Outstanding','money'],['rating','Rating (0–5)','decimal'],['status','Availability',['Available','Limited','Unavailable']]],
+  packages:[['name','Package name'],['duration','Duration'],['route','Route'],['price','Price per person (before tax)','money'],['type','Trip type',['Domestic','International']],['itinerary','Day-wise itinerary','textarea',true],['details','Hotels / travel details','textarea',true]],
+  payments:[['invoice','Invoice no.'],['customer','Customer'],['total','Invoice total','money'],['amount','Payment received now','money'],['due','Due date','date'],['paidOn','Payment date','date'],['method','Payment method',['UPI','Bank transfer','Cash','Card','Other']],['reference','Reference / note','text',true]]
+};
+let formKey='', editId='', paymentExisting=false;
+function inputHTML([key,label,type='text',optional=false],value='') {
+  const required=optional?'':'required';
+  const options=Array.isArray(type)?[...new Set([...type,...(value && !type.includes(value)?[value]:[])])]:[];
+  const control=Array.isArray(type)?`<select name="${key}">${options.map(o=>`<option ${o===value?'selected':''}>${esc(o)}</option>`).join('')}</select>`:type==='textarea'?`<textarea name="${key}" rows="4" ${required}>${esc(value)}</textarea>`:`<input name="${key}" type="${type==='money'?'text':['integer','decimal'].includes(type)?'number':type}" value="${esc(value)}" ${required} ${type==='money'?'data-money inputmode="decimal" placeholder="e.g. 1,50,000.50"':''} ${type==='integer'?'min="0" max="100" step="1"':''} ${type==='decimal'?'min="0" max="5" step="0.1"':''}>`;
+  return `<label ${type==='textarea'?'class="full"':''}>${esc(label)}${control}</label>`;
+}
+function openForm(key,id='') {
+  formKey=key;editId=id;paymentExisting=false;
+  const record=id?clone(byId(key,id)):{status:key==='leads'?'New':key==='visas'?'Documents pending':key==='suppliers'?'Available':'',owner:'Snehal',source:'Website',total:key==='visas'?7:'',done:0,fee:0,lastRate:0,outstanding:0,rating:0,price:0,type:key==='suppliers'?'Hotel':'Domestic'};
+  if(key==='visas' && !/^\d{4}-\d{2}-\d{2}$/.test(record.appointment || '')) record.appointment='';
+  if(key==='payments') {record.amount='';record.paidOn=today();record.method='UPI';record.reference='';paymentExisting=!!id;}
+  $('#modalTitle').textContent=key==='payments'?'Record payment':(id?'Edit ':'Add ')+({leads:'lead',customers:'customer',visas:'visa case',suppliers:'supplier',packages:'package'}[key]);
+  $('#modalFields').innerHTML=fields[key].map(field=>inputHTML(field,record[field[0]] ?? '')).join('')+'<p class="form-error hidden" id="formError" role="alert"></p>';
+  if(key==='payments') {
+    $('#modalFields [name="invoice"]').setAttribute('list','invoiceOptions');
+    $('#modalFields').insertAdjacentHTML('beforeend',`<datalist id="invoiceOptions">${db.payments.filter(p=>p.received<p.total).map(p=>`<option value="${esc(p.invoice)}">${esc(p.customer)} · balance ${money((paise(p.total)-paise(p.received))/100)}</option>`).join('')}</datalist>`);
+    lockPaymentFields();$('#modalFields [name="invoice"]').addEventListener('change',loadInvoiceFields);
+  }
+  showModal('genericModal');$('#modalFields input')?.focus();
+}
+function lockPaymentFields() {for(const key of ['customer','total','due']) $('#modalFields [name="'+key+'"]').readOnly=paymentExisting;}
+function loadInvoiceFields() {
+  const invoice=$('#modalFields [name="invoice"]').value.trim().toUpperCase();
+  const p=db.payments.find(p=>p.invoice.toUpperCase()===invoice);paymentExisting=!!p;editId=p?.id || '';
+  if(p) for(const key of ['customer','total','due']) $('#modalFields [name="'+key+'"]').value=p[key] || '';
+  lockPaymentFields();
+}
+function formValues(form) {const v=Object.fromEntries(new FormData(form));for(const k in v)v[k]=String(v[k]).trim();return v;}
+function requiredText(v,keys) {for(const k of keys) if(!v[k]) throw Error('Complete all required fields.');}
+function upsertCustomer(d,name,phone,trip='') {
+  const normalized=phoneNumber(phone),existing=d.customers.find(c=>{try{return phoneNumber(c.phone)===normalized;}catch{return false;}});
+  if(existing) {if(trip)existing.lastTrip=trip;return;}
+  d.customers.unshift({id:uid('CUS'),name,phone,documents:'',lastTrip:trip});
+}
+function ensureInvoice(d,b) {
+  let p=d.payments.find(p=>p.bookingId===b.id || (b.invoice && p.invoice===b.invoice));
+  if(!p) {b.invoice ||= uid('INV').toUpperCase();p={id:uid('PAY'),invoice:b.invoice,bookingId:b.id,customer:b.customer,total:b.total,received:0,openingReceived:0,due:b.departure,receipts:[]};d.payments.unshift(p);}
+  if(p.received>b.total) throw Error('Booking total cannot be below payments already received.');
+  p.customer=b.customer;p.total=b.total;p.bookingId=b.id;b.invoice=p.invoice;
+  return p;
+}
+function validateLead(d,l,previous) {
+  if(l.status==='Confirmed' && !d.bookings.some(b=>String(b.leadId)===String(l.id))) throw Error('Use Advance from Quotation to create a linked booking before confirming the lead.');
+  if(previous?.status==='Confirmed' && l.status!=='Confirmed' && d.bookings.some(b=>String(b.leadId)===String(l.id))) throw Error('This lead has a booking. Edit that booking instead of changing its conversion status.');
+}
+$('#genericForm').onsubmit=e=>{
+  e.preventDefault();const form=e.currentTarget;const err=$('#formError');err.classList.add('hidden');
+  try {
+    const v=formValues(form);for(const field of fields[formKey]) if(!field[3] && !v[field[0]]) throw Error('Complete all required fields.');
+    for(const [key,,type] of fields[formKey]) if(type==='money') v[key]=parseAmount(v[key]);
+    if(formKey==='leads' || formKey==='customers') phoneNumber(v.phone);
+    if(formKey==='leads') {validDate(v.date);validDate(v.followup,true);}
+    if(formKey==='visas') {validDate(v.appointment,true);v.total=bounded(v.total,1,100,'Checklist total',true);v.done=bounded(v.done,0,v.total,'Documents complete',true);if(['Submitted','Approved'].includes(v.status) && v.done!==v.total)throw Error('Complete the document checklist before marking Submitted or Approved.');if(v.status==='Appointment booked' && !v.appointment)throw Error('Choose the booked appointment date.');}
+    if(formKey==='suppliers')v.rating=bounded(v.rating,0,5,'Rating');
+    if(formKey==='packages' && v.price<=0)throw Error('Package price must be greater than zero.');
+    if(formKey==='payments') {validDate(v.due);validDate(v.paidOn);if(v.paidOn>today())throw Error('A received payment cannot have a future payment date.');v.invoice=v.invoice.toUpperCase();if(v.total<=0)throw Error('Invoice total must be greater than zero.');}
+    const success=mutate(d=>{
+      if(formKey==='payments') {
+        let p=d.payments.find(p=>p.invoice.toUpperCase()===v.invoice);
+        if(p) {if(p.customer!==v.customer || paise(p.total)!==paise(v.total))throw Error('Existing invoice details do not match. Select its invoice number to load the saved details.');}
+        else {p={id:uid('PAY'),invoice:v.invoice,customer:v.customer,total:v.total,received:0,openingReceived:0,due:v.due,receipts:[]};d.payments.unshift(p);}
+        applyReceipt(p,v.amount,{id:uid('REC'),date:v.paidOn,method:v.method,reference:v.reference});return;
+      }
+      const previous=editId?d[formKey].find(x=>String(x.id)===String(editId)):null;
+      const record={...previous,...v,id:previous?.id || uid(formKey.slice(0,3).toUpperCase())};
+      if(formKey==='leads')validateLead(d,record,previous);
+      if(previous)Object.assign(previous,record);else d[formKey].unshift(record);
+    });
+    if(success) {closeModals();toastMsg(formKey==='payments'?'Payment recorded against one invoice.':'Saved successfully.');}
+  } catch(error) {err.textContent=error.message;err.classList.remove('hidden');}
+};
+let bookingId='',bookingLeadId='';
+function openBooking(id='',leadId='') {
+  bookingId=id;bookingLeadId=leadId;$('#bookingForm').reset();
+  const b=id?byId('bookings',id):null,l=leadId?byId('leads',leadId):null;
+  const values=b?{customer:b.customer,phone:b.phone,tripType:b.type,destination:b.trip,departure:b.departure,return:b.return || b.departure,total:b.total,services:b.services,taxRate:b.taxRate}:l?{customer:l.name,phone:l.phone,destination:l.destination,departure:l.date}:{};
+  for(const [k,v] of Object.entries(values))$('#bookingForm').elements[k].value=v ?? '';
+  $('#bookingModal h2').textContent=id?'Edit booking':'New booking';$('#bookingForm button.btn.primary').textContent=id?'Save booking':'Create booking';
+  $('#bookingError')?.remove();$('#bookingForm .form-grid').insertAdjacentHTML('beforeend','<p class="form-error hidden" id="bookingError" role="alert"></p>');updateVisaPanel();showModal('bookingModal');
+}
+function updateVisaPanel() {
+  const international=$('#tripType').value==='International';$('#bookingVisaPanel').classList.toggle('hidden',!international);
+  $('#bookingVisaPanel').innerHTML=`<h3>${esc($('#bookingDestination').value || 'International trip')} visa checklist</h3><p>Passport, photograph, travel dates, flight / accommodation details and financial evidence.</p><small>Prototype checklist only. Verify current destination rules with the official consulate. Creating an international booking adds one linked visa case for tracking; it does not establish that a visa is required.</small>`;
+}
+$('#bookingForm').onsubmit=e=>{
+  e.preventDefault();const err=$('#bookingError');err.classList.add('hidden');
+  try {
+    const v=formValues(e.currentTarget);requiredText(v,['customer','phone','destination','services']);phoneNumber(v.phone);validDate(v.departure);validDate(v.return);
+    if(v.return<v.departure)throw Error('Return date cannot be before departure.');
+    const total=parseAmount(v.total);if(total<=0)throw Error('Booking value must be greater than zero.');const taxRate=bounded(v.taxRate,0,100,'Tax rate');
+    if(mutate(d=>{
+      const existing=bookingId?d.bookings.find(b=>String(b.id)===String(bookingId)):null;
+      const b={...existing,id:existing?.id || uid('HT'),customer:v.customer,phone:v.phone,trip:v.destination,type:v.tripType,services:v.services,departure:v.departure,return:v.return,total,taxRate,status:existing?.status || 'Pending',stage:existing?.stage || 0,completed:existing?.completed || Array(6).fill(false),invoice:existing?.invoice || null,leadId:existing?.leadId || bookingLeadId || null};
+      if(existing)Object.assign(existing,b);else d.bookings.unshift(b);
+      const current=existing || b;ensureInvoice(d,current);
+      if(current.leadId) {const lead=d.leads.find(l=>String(l.id)===String(current.leadId));if(lead)lead.status='Confirmed';}
+      upsertCustomer(d,current.customer,current.phone,`${current.trip} · ${current.departure}`);
+      const visa=d.visas.find(v=>v.bookingId===current.id);
+      if(current.type==='International' && !visa)d.visas.unshift({id:uid('V'),bookingId:current.id,applicant:current.customer,country:current.trip,appointment:'',done:0,total:5,fee:0,status:'Documents pending'});
+      else if(visa && (visa.country!==current.trip || current.type!=='International'))toastMsg('Booking changed. Review its existing visa case manually.');
+    })) {closeModals();toastMsg('Booking saved; customer and invoice balance linked.');}
+  } catch(error) {err.textContent=error.message;err.classList.remove('hidden');}
+};
+function showBookingStage(id) {
+  const b=byId('bookings',id);
+  const p=db.payments.find(p=>p.bookingId===b.id || p.invoice===b.invoice);
+  detail(`${b.id} · ${b.status}`,`<div class="notice">${esc(b.customer)} · ${esc(b.trip)}<br>Recorded payments: ${money(p?.received || 0)} of ${money(b.total)}</div><div class="stage-list">${bookingStages.map((s,i)=>`<div class="stage-item ${b.completed[i]?'done':i===b.stage?'current':''}"><i class="stage-dot"></i><div><b>${i+1}. ${s}</b><br><small>${b.completed[i]?'Complete':i===b.stage?'Awaiting confirmation':'Not completed'}</small></div></div>`).join('')}</div>`,action('Close','close')+(b.status==='Pending'?action('Mark stage complete','bookingAdvance',b.id):''));
+}
+function advanceBooking(id) {
+  const b=byId('bookings',id);if(b.status==='Confirmed')return;
+  if(b.stage===1) {const p=db.payments.find(p=>p.bookingId===b.id || p.invoice===b.invoice);if(!p || p.received<=0){toastMsg('Record an advance payment in Payments before completing this stage.');return;}}
+  if(mutate(d=>{const b=d.bookings.find(b=>b.id===id);b.completed[b.stage]=true;if(b.stage===5){b.status='Confirmed';b.invoiceDate ||= today();ensureInvoice(d,b);}else b.stage++;})) {showBookingStage(id);toastMsg('Booking stage saved.');}
+}
+function confirmBooking(id) {const b=byId('bookings',id);if(b.status==='Confirmed')return;if(b.stage<5){showBookingStage(id);toastMsg('Complete the required stages before confirming.');return;}advanceBooking(id);}
+function leadAdvance(id) {
+  const l=byId('leads',id);if(l.status==='Confirmed')return;
+  if(l.status==='Quotation'){const b=db.bookings.find(b=>String(b.leadId)===String(l.id));if(b)openBooking(b.id);else openBooking('',l.id);return;}
+  if(mutate(d=>{const lead=d.leads.find(x=>String(x.id)===String(id));lead.status=lead.status==='Lost'?'New':leadStates[leadStates.indexOf(lead.status)+1];}))toastMsg('Lead updated.');
+}
+function paymentHistory(id) {const p=byId('payments',id);detail(p.invoice+' · receipts',`<p>${esc(p.customer)} · received ${money(p.received)} · balance ${money((paise(p.total)-paise(p.received))/100)}</p>${p.openingReceived?`<p>Imported opening receipt: ${money(p.openingReceived)} (no original transaction history).</p>`:''}${table(['Date','Amount','Method','Reference'],(p.receipts || []).map(r=>[esc(dateFmt(r.date)),money(r.amount),esc(r.method),esc(r.reference)]))}`);}
+function supplierLedger(id) {const s=byId('suppliers',id);detail(s.name,stats([['Saved rate',money(s.lastRate)],['Outstanding',money(s.outstanding)]])+`<p>${esc(s.type)} · ${esc(s.location)} · ${esc(s.status)}</p><p class="muted">Manually recorded supplier balance. This prototype has no supplier transaction feed; use Edit to correct the rate or balance.</p>`,action('Close','close')+action('Edit supplier','supplierEdit',s.id));}
+
+// The current quotation is the only draft; it persists with the CRM backup.
+const quoteIds=['qCustomer','qPhone','qEmail','qDestination','qStart','qDuration','travellers','qDeparture','qItinerary','qTravelDetails','qTax'];
+let quoteData=null,quoteTimer,loadingQuote=false;
+function readQuote() {return {fields:Object.fromEntries(quoteIds.map(id=>[id,$('#'+id).value])),items:$$('#quoteLines .quote-lines').map(row=>({name:row.querySelector('.line-name').value,cost:row.querySelector('.qcost').value,markup:row.querySelector('.qmarkup').value,...(row.dataset.unitPrice?{unitPrice:row.dataset.unitPrice}:{})}))};}
+function saveQuote() {clearTimeout(quoteTimer);quoteTimer=null;return mutate(d=>{d.quote=readQuote();},false);}
+function scheduleQuote() {if(loadingQuote)return;clearTimeout(quoteTimer);quoteTimer=setTimeout(saveQuote,400);}
+function addQuoteRow(name='',cost='',markup=0,unitPrice='') {
+  const row=document.createElement('div');row.className='quote-lines';
+  if(unitPrice!=='')row.dataset.unitPrice=unitPrice;
+  row.innerHTML=`<input class="field line-name" aria-label="Cost item" placeholder="Cost item" value="${esc(name)}" required><input class="field qcost" aria-label="Item cost in rupees" title="Type rupees, e.g. 1,50,000.50" placeholder="Cost ₹" type="text" inputmode="decimal" data-money value="${esc(cost)}" required><input class="field qmarkup" aria-label="Markup percent" type="number" min="0" max="1000" step="0.01" value="${esc(markup)}" title="Markup %" required><span class="line-total"></span><button class="btn" type="button" aria-label="Remove cost item">×</button>`;
+  row.querySelector('button').onclick=()=>{row.remove();calcQuote();scheduleQuote();};$('#quoteLines').appendChild(row);
+}
+function loadQuote(draft) {loadingQuote=true;for(const id of quoteIds)if(draft.fields?.[id]!==undefined)$('#'+id).value=draft.fields[id];$('#quoteLines').replaceChildren();for(const item of draft.items || [])addQuoteRow(item.name,item.cost,item.markup,item.unitPrice ?? '');loadingQuote=false;calcQuote();}
+function calcQuote() {
+  try {
+    const draft=readQuote();quoteData=quoteTotals(draft.items,Number($('#travellers').value),Number($('#qTax').value));
+    if(!$('#qTax').value)throw Error('Enter a tax rate, including 0 if applicable.');
+    $$('#quoteLines .quote-lines').forEach((r,i)=>r.querySelector('.line-total').textContent=money(quoteData.items[i].total));
+    for(const [id,key] of [['quoteCost','cost'],['quoteMarkup','markup'],['quoteGst','tax'],['quoteTotal','total'],['quotePp','perPerson']])$('#'+id).textContent=money(quoteData[key]);
+    $('#quoteTaxRate').textContent=$('#qTax').value;
+  } catch(error) {quoteData=null;for(const id of ['quoteCost','quoteMarkup','quoteGst','quoteTotal','quotePp'])$('#'+id).textContent='—';$$('.line-total').forEach(x=>x.textContent='—');}
+}
+function validateQuote(requirePhone=false) {
+  const invalid=$$('#quoteForm input,#quoteLines input').find(input=>!input.checkValidity());if(invalid){invalid.reportValidity();throw Error('Correct the highlighted quotation field.');}
+  for(const id of ['qCustomer','qDestination','qStart','qDuration'])if(!$('#'+id).value.trim())throw Error('Enter customer, destination, travel date and duration.');
+  validDate($('#qStart').value);if($('#qPhone').value.trim() || requirePhone)phoneNumber($('#qPhone').value);
+  if(!$('#qEmail').checkValidity())throw Error('Enter a valid email or leave it blank.');
+  calcQuote();if(!quoteData || !quoteData.items.length || quoteData.items.some(x=>!x.name.trim()) || quoteData.total<=0)throw Error('Add named cost items with valid amounts, a positive total, travellers and tax rate.');
+  return quoteData;
+}
+function usePackage(id) {
+  const p=byId('packages',id);
+  if(!confirm('Replace the current quotation’s destination, itinerary, travel details and cost items with this package? Customer details stay unchanged.'))return;
+  const travellers=Number($('#travellers').value);try{bounded(travellers,1,10000,'Travellers',true);}catch(e){toastMsg(e.message);return;}
+  const draft=readQuote();Object.assign(draft.fields,{qDestination:p.name,qDuration:p.duration,qItinerary:p.itinerary,qTravelDetails:p.details || p.route});draft.items=[{name:`${p.name} · all travellers`,cost:(paise(p.price)*travellers)/100,markup:0,unitPrice:String(p.price)}];
+  loadQuote(draft);saveQuote();showPage('quotations');toastMsg('Package price × travellers loaded. Changing traveller count updates this package cost; typing a cost overrides it.');
+}
+function newQuote() {
+  if(!confirm('Clear the current quotation draft and start a new one? Export a backup first if you need to keep it.'))return;
+  loadQuote({fields:{qCustomer:'',qPhone:'',qEmail:'',qDestination:'',qStart:today(),qDuration:'',travellers:'1',qDeparture:'',qItinerary:'',qTravelDetails:'',qTax:'5'},items:[]});saveQuote();$('#qCustomer').focus();toastMsg('New quotation started.');
+}
+function documentHeader(title) {const s=db.settings;return `<header><h1>${esc(s.business)}</h1><p>${esc(s.address)}<br>${esc(s.email)} · ${esc(s.phone)}${s.gstin?'<br>GSTIN: '+esc(s.gstin):''}</p><h2>${esc(title)}</h2></header>`;}
+function quotationDocument() {
+  const q=validateQuote(),f=readQuote().fields,s=db.settings;
+  return `<article class="print-document">${documentHeader('Tour quotation')}<p><b>Prepared for:</b> ${esc(f.qCustomer)}<br>${esc(f.qPhone)} · ${esc(f.qEmail)}</p><p><b>Destination:</b> ${esc(f.qDestination)}<br><b>Travel:</b> ${esc(dateFmt(f.qStart))} · ${esc(f.qDuration)} · ${esc(f.travellers)} traveller(s)<br><b>Departure city:</b> ${esc(f.qDeparture)}</p><h2>Itinerary</h2><pre>${esc(f.qItinerary || 'To be confirmed.')}</pre><h2>Hotels / travel details</h2><pre>${esc(f.qTravelDetails || 'To be confirmed.')}</pre>${table(['Service','Quoted amount'],q.items.map(i=>[esc(i.name),money(i.total)]))}<p class="total">Subtotal ${money(q.subtotal)}<br>Tax (${esc(f.qTax)}%) ${money(q.tax)}<br>Total ${money(q.total)}<br>Per person ${money(q.perPerson)}</p><p>Tax percentage is an entered prototype value; applicability must be verified. Per-person share is rounded to the nearest paise.</p><h2>Payment instructions</h2><pre>${esc(s.payment || 'Confirm payment instructions directly with the business.')}</pre><h2>Terms, inclusions and exclusions</h2><pre>${esc(s.terms || 'Not specified. Confirm inclusions, exclusions, payment terms and cancellation policy before acceptance.')}</pre></article>`;
+}
+function invoiceDocument(b) {
+  const p=db.payments.find(p=>p.bookingId===b.id || p.invoice===b.invoice),total=paise(b.total),base=Math.round(total/(1+b.taxRate/100)),tax=total-base;
+  return `<article class="print-document">${documentHeader('Booking invoice · prototype')}<p><b>Invoice:</b> ${esc(b.invoice)}<br><b>${b.invoiceDate?'Issued':'Prepared (original issue date not recorded)'}:</b> ${esc(dateFmt(b.invoiceDate || today()))}<br><b>Booking:</b> ${esc(b.id)}</p><h2>Bill to</h2><p>${esc(b.customer)}<br>${esc(b.phone)}</p><p><b>Trip:</b> ${esc(b.trip)}<br><b>Travel:</b> ${esc(dateFmt(b.departure))} – ${esc(dateFmt(b.return))}</p>${table(['Description','Amount'],[[esc(b.services),money(base/100)],[`Tax (${b.taxRate}%, included)`,money(tax/100)]])}<p class="total">Invoice total ${money(b.total)}<br>Received ${money(p?.received || 0)}<br>Balance ${money((total-paise(p?.received || 0))/100)}</p><h2>Payment instructions</h2><pre>${esc(db.settings.payment || 'Confirm payment instructions directly with the business.')}</pre><p>Prototype invoice for workflow testing. Tax classification, GST split, TCS, mandatory invoice fields and business terms require verification before use as a tax invoice.</p></article>`;
+}
+function previewDocument(title,html) {$('#printArea').innerHTML=html;detail(title,html,action('Close','close')+action('Print / Save as PDF','printDocument'));}
+function invoice(id) {
+  const b=byId('bookings',id);if(b.status!=='Confirmed'){toastMsg('Complete booking confirmation first.');return;}
+  if(!b.invoice)if(!mutate(d=>{const b=d.bookings.find(b=>b.id===id);ensureInvoice(d,b);}))return;
+  previewDocument('Invoice preview',invoiceDocument(byId('bookings',id)));
+}
+function whatsapp(phone,message) {
+  const digits=phoneNumber(phone);
+  if(!confirm(`Open WhatsApp for +${digits} with this draft? You must attach any PDF and press Send yourself.\n\n${message}`))return;
+  window.open(`https://wa.me/${digits}?text=${encodeURIComponent(message)}`,'_blank','noopener,noreferrer');
+  toastMsg('WhatsApp draft requested. Attach the PDF manually; no message was sent by the CRM.');
+}
+function invoiceShare(id) {const b=byId('bookings',id);if(b.status!=='Confirmed' || !b.invoice){toastMsg('Confirm the booking first.');return;}whatsapp(b.phone,`Namaskar ${b.customer}, your ${b.trip} booking ${b.id} is confirmed. Invoice ${b.invoice}: ${money(b.total)}. Please contact ${db.settings.business} for details.`);}
+function shareQuote() {const q=validateQuote(true);whatsapp($('#qPhone').value,`Quotation from ${db.settings.business} for ${$('#qCustomer').value.trim()}: ${$('#qDestination').value.trim()}, ${$('#travellers').value} traveller(s), total ${money(q.total)}. Please confirm the itinerary and terms with us.`);}
+function globalSearch() {
+  const query=$('#globalSearch').value.trim().toLowerCase();if(!query){toastMsg('Enter a name, phone, invoice or destination.');return;}
+  const rows=[];
+  for(const key of collections)for(const r of db[key])if(Object.values(r).filter(v=>typeof v==='string' || typeof v==='number').join(' ').toLowerCase().includes(query))rows.push([esc(key),esc(r.name || r.customer || r.applicant || r.invoice),esc(r.trip || r.destination || r.country || r.location || r.route || r.phone || ''),action('Open',({leads:'leadEdit',customers:'customerEdit',bookings:'bookingEdit',visas:'visaEdit',payments:'paymentHistory',suppliers:'supplierLedger',packages:'packageEdit'})[key],r.id)]);
+  detail('Search results',table(['Section','Record','Details','Action'],rows));
+}
+function downloadBlob(blob,name) {const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);}
+function exportCSV() {
+  const rows=[['Type','Reference','Name','Destination / Details','Status','Total','Received','Balance','Date','Owner']];
+  db.leads.forEach(l=>rows.push(['Lead',l.id,l.name,l.destination,l.status,'','','',l.date,l.owner]));
+  db.bookings.forEach(b=>rows.push(['Booking',b.id,b.customer,b.trip,b.status,b.total,'','',b.departure,'']));
+  db.visas.forEach(v=>rows.push(['Visa',v.id,v.applicant,v.country,v.status,v.fee,'','',v.appointment,'']));
+  db.payments.forEach(p=>rows.push(['Invoice',p.invoice,p.customer,'',paymentStatus(p,today()),p.total,p.received,(paise(p.total)-paise(p.received))/100,p.due,'']));
+  db.suppliers.forEach(s=>rows.push(['Supplier',s.id,s.name,s.location,s.status,s.lastRate,'',s.outstanding,'','']));
+  downloadBlob(new Blob(['\uFEFF'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'Hindavi_Operations_'+today()+'.csv');toastMsg('Operations report exported. Use JSON backup to preserve all data.');
+}
+function loadSettings() {for(const [key,id] of Object.entries({business:'sBusiness',gstin:'sGstin',phone:'sPhone',email:'sEmail',address:'sAddress',payment:'sPayment',terms:'sTerms'}))$('#'+id).value=db.settings[key] || '';}
+function saveSettings() {
+  const s=Object.fromEntries(Object.entries({business:'sBusiness',gstin:'sGstin',phone:'sPhone',email:'sEmail',address:'sAddress',payment:'sPayment',terms:'sTerms'}).map(([key,id])=>[key,$('#'+id).value.trim()]));
+  requiredText(s,['business','phone','email','address']);phoneNumber(s.phone);if(!$('#sEmail').checkValidity())throw Error('Enter a valid business email.');
+  if(mutate(d=>{d.settings=s;}))toastMsg('Settings saved. Documents use the saved business profile.');
+}
+function exportBackup() {
+  const data=clone(db);data.quote=readQuote();let recovery={};
+  try{if(storageBlocked)recovery={unreadableData:localStorage.getItem(KEY),legacyData:localStorage.getItem('hindaviCRM'),legacySettings:localStorage.getItem('hindaviSettings')};}catch{}
+  downloadBlob(new Blob([JSON.stringify({format:'hindavi-crm-backup',version:2,exportedAt:new Date().toISOString(),data,...recovery},null,2)],{type:'application/json'}),'Hindavi_Backup_'+today()+'.json');toastMsg('Backup downloaded. It contains customer information; store it privately.');
+}
+$('#backupFile').onchange=async e=>{
+  const file=e.target.files[0];if(!file)return;
+  try {
+    if(file.size>10*1024*1024)throw Error('Backup exceeds the 10 MB limit.');
+    const parsed=JSON.parse(await file.text());if(parsed.version && parsed.version!==2)throw Error('Unsupported backup version.');
+    const replacement=migrate(parsed.data || parsed);
+    if(!confirm(`Replace this browser’s CRM with ${replacement.leads.length} leads, ${replacement.bookings.length} bookings and ${replacement.payments.length} invoices? Export your current backup first.`))return;
+    // Preserve the previous raw state before replacing it, including a damaged payload.
+    const current=localStorage.getItem(KEY);if(current)localStorage.setItem(KEY+'_before_restore',current);
+    const raw=JSON.stringify(replacement);localStorage.setItem(KEY,raw);db=replacement;lastRaw=raw;storageBlocked=false;clearTimeout(quoteTimer);loadSettings();loadQuote(db.quote || {fields:{qCustomer:'',qPhone:'',qEmail:'',qDestination:'',qStart:today(),qDuration:'',travellers:'1',qDeparture:'',qItinerary:'',qTravelDetails:'',qTax:'5'},items:[]});renderAll();notice('');toastMsg('Backup restored.');
+  }catch(error){toastMsg('Restore failed: '+error.message);}finally{e.target.value='';}
+};
+const actions={close:closeModals,leadEdit:id=>openForm('leads',id),leadAdvance,leadDelete:id=>{if(confirm('Delete this lead? Any linked booking will be kept.'))mutate(d=>{d.leads=d.leads.filter(l=>String(l.id)!==String(id));});},customerEdit:id=>openForm('customers',id),visaEdit:id=>openForm('visas',id),paymentEdit:id=>openForm('payments',id),paymentHistory,supplierEdit:id=>openForm('suppliers',id),supplierLedger,packageEdit:id=>openForm('packages',id),packageUse:usePackage,bookingEdit:id=>openBooking(id),bookingStage:showBookingStage,bookingAdvance:advanceBooking,bookingConfirm:confirmBooking,invoice,invoiceShare,printDocument:()=>window.print()};
+function safely(fn) {return (...args)=>{try{return fn(...args);}catch(e){toastMsg(e.message);}};}
+document.addEventListener('click',safely(e=>{
+  const page=e.target.closest('[data-page],[data-page-link]');if(page)showPage(page.dataset.page || page.dataset.pageLink);
+  const modal=e.target.closest('[data-modal]');if(modal)openForm(({leadModal:'leads',customerModal:'customers',visaModal:'visas',paymentModal:'payments',supplierModal:'suppliers',packageModal:'packages'})[modal.dataset.modal]);
+  const button=e.target.closest('[data-action]');if(button){if(!button.disabled)actions[button.dataset.action]?.(button.dataset.id);}
+  if(e.target.closest('[data-close]'))closeModals();
+}));
+document.addEventListener('input',e=>{
+  const input=e.target;if(input.matches('[data-money]')) {try{parseAmount(input.value);input.setCustomValidity('');input.removeAttribute('aria-invalid');}catch(error){input.setCustomValidity(error.message);input.setAttribute('aria-invalid','true');}}
+  if(input.matches('.qcost'))delete input.closest('.quote-lines').dataset.unitPrice;
+  if(input.id==='travellers')$$('#quoteLines .quote-lines[data-unit-price]').forEach(row=>{try{const count=bounded(input.value,1,10000,'Travellers',true);row.querySelector('.qcost').value=(paise(parseAmount(row.dataset.unitPrice))*count)/100;}catch{}});
+  if(input.closest('#quotations')){calcQuote();scheduleQuote();}
+});
+document.addEventListener('focusout',e=>{if(e.target.matches('[data-money]') && e.target.value){try{e.target.value=parseAmount(e.target.value).toLocaleString('en-IN',{maximumFractionDigits:2});if(e.target.closest('#quotations'))scheduleQuote();}catch{}}});
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#globalSearch').focus();}
+  if(e.key==='Escape')closeModals();
+  if((e.key==='Enter'||e.key===' ') && e.target.matches('[role="button"][data-page-link]')){e.preventDefault();showPage(e.target.dataset.pageLink);}
+  const modal=$('.modal-backdrop.open');if(e.key==='Tab' && modal){const controls=[...modal.querySelectorAll('button,input,select,textarea,a[href]')].filter(x=>!x.disabled && x.offsetParent!==null),first=controls[0],last=controls.at(-1);if(e.shiftKey && document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first?.focus();}}
+});
+$$('.modal-backdrop').forEach(m=>{m.setAttribute('role','dialog');m.setAttribute('aria-modal','true');m.setAttribute('aria-labelledby',m.id==='genericModal'?'modalTitle':m.id==='detailModal'?'detailTitle':'bookingHeading');m.onclick=e=>{if(e.target===m)closeModals();};});$('#bookingModal h2').id='bookingHeading';
+$('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');$('#menuBtn').setAttribute('aria-label','Toggle navigation');
+$('#leadSearch').oninput=renderLeads;$('#sourceFilter').onchange=renderLeads;
+$('#sourceFilter').setAttribute('aria-label','Filter by lead source');
+$('#toggleLeadView').onclick=()=>{const hidden=$('#leadKanban').classList.toggle('hidden');$('#leadTableWrap').classList.toggle('hidden',!hidden);$('#toggleLeadView').textContent=hidden?'Kanban view':'Table view';};
+$('#openBooking').onclick=()=>openBooking();$('#tripType').onchange=updateVisaPanel;$('#bookingDestination').oninput=updateVisaPanel;
+$('#refreshSuppliers').onclick=()=>{renderSuppliers();toastMsg('Saved supplier data refreshed. No live feed is connected.');};
+$('#newQuote').onclick=newQuote;$('#addQuoteLine').onclick=()=>{addQuoteRow();calcQuote();scheduleQuote();};
+$('#generateQuote').onclick=safely(()=>{const html=quotationDocument();if(!saveQuote())return;previewDocument('Quotation preview · use Print / Save as PDF',html);});$('#shareQuote').onclick=safely(shareQuote);
+$('#quickWhatsApp').onclick=safely(()=>whatsapp(db.settings.phone,'Hello, I have a tourism enquiry.'));
+$('#notificationBtn').onclick=()=>{const pending=db.bookings.filter(b=>b.status==='Pending').length,visas=db.visas.filter(v=>!['Approved','Rejected'].includes(v.status)).length,overdue=db.payments.filter(p=>paymentStatus(p,today())==='Overdue').length;detail('Operational notifications',`<p>${pending} pending bookings · ${visas} active visa cases · ${overdue} overdue invoices</p>`,action('Close','close'));};
+$('#globalSearch').onkeydown=e=>{if(e.key==='Enter')safely(globalSearch)();};
+$('#exportOps').onclick=$('#downloadReport').onclick=exportCSV;$('#saveSettings').onclick=safely(saveSettings);$('#exportBackup').onclick=exportBackup;$('#importBackup').onclick=()=>$('#backupFile').click();
+window.addEventListener('pagehide',()=>{if(quoteTimer)saveQuote();});
+loadSettings();if(db.quote)loadQuote(db.quote);else {addQuoteRow('Hotel · 3 star',64000,15);addQuoteRow('Flights',52000,8);addQuoteRow('Transfers & sightseeing',24000,12);calcQuote();}
+renderAll();if(startupMessage)notice(startupMessage);
+
+</script></body></html>
