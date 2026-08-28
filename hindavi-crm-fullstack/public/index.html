@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Hindavi Tourism full-stack CRM and travel planning workspace">
+  <title>Hindavi Tourism CRM</title>
+  <link rel="stylesheet" href="/styles.css?v=2">
+  <script type="module" src="/app.js?v=3"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">h</span><span><b>Hindavi</b><small>Tourism &amp; travels</small></span></div>
+      <p class="nav-label">Workspace</p>
+      <nav aria-label="Primary navigation">
+        <button class="nav active" data-page="discover"><span>◎</span>Travel desk</button>
+        <button class="nav" data-page="dashboard"><span>⌂</span>Dashboard</button>
+        <button class="nav" data-page="leads"><span>◉</span>Leads <i id="leadCount">0</i></button>
+        <button class="nav" data-page="quotations"><span>▤</span>Quotations</button>
+        <button class="nav" data-page="packages"><span>✦</span>Packages</button>
+        <button class="nav" data-page="customers"><span>♙</span>Customers</button>
+      </nav>
+      <p class="nav-label">Operations</p>
+      <nav aria-label="Operations navigation">
+        <button class="nav" data-page="bookings"><span>▣</span>Bookings</button>
+        <button class="nav" data-page="visas"><span>▧</span>Visa cases <i id="visaCount">0</i></button>
+        <button class="nav" data-page="payments"><span>₹</span>Payments</button>
+        <button class="nav" data-page="suppliers"><span>♜</span>Suppliers</button>
+      </nav>
+      <p class="nav-label">Management</p>
+      <nav aria-label="Management navigation">
+        <button class="nav" data-page="staff"><span>♟</span>Staff</button>
+        <button class="nav" data-page="reports"><span>◫</span>Reports</button>
+        <button class="nav" data-page="settings"><span>⚙</span>Settings</button>
+      </nav>
+      <div class="side-note"><b>Connected workspace</b><p>Changes are saved by the local Node server in SQLite.</p><span class="online"><i></i>Backend connected</span></div>
+    </aside>
+    <div class="main">
+      <header class="topbar">
+        <button id="menuButton" class="icon-button menu-button" aria-label="Toggle navigation">☰</button>
+        <div class="crumb">Workspace / <b id="pageName">Travel desk</b></div>
+        <form id="globalSearchForm" class="global-search"><input id="globalSearch" aria-label="Search CRM" placeholder="Search leads, bookings, customers…"><kbd>Ctrl K</kbd><button class="icon-button search-submit" aria-label="Search CRM" title="Search">⌕</button></form>
+        <button class="icon-button" id="notificationsButton" aria-label="Operational notifications">♢</button>
+        <div class="profile"><span><b>Admin</b><small>Hindavi Tourism</small></span><i>HT</i></div>
+      </header>
+      <main id="page" class="page" tabindex="-1"><div class="loading">Loading your workspace…</div></main>
+    </div>
+  </div>
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button data-page="discover"><span>⌂</span>Explore</button><button data-page="leads"><span>◎</span>Leads</button><button data-page="quotations"><span>▤</span>Quotes</button><button data-page="bookings"><span>▣</span>Bookings</button><button data-page="visas"><span>▧</span>Visas</button>
+  </nav>
+  <div class="modal-backdrop" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal"><header><h2 id="modalTitle">Details</h2><button class="icon-button" data-close-modal aria-label="Close dialog">×</button></header><div id="modalBody" class="modal-body"></div><footer id="modalFooter"></footer></div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <section id="printArea" class="print-area" aria-hidden="true"></section>
+  <input id="restoreFile" type="file" accept="application/json,.json" hidden>
+</body>
+</html>

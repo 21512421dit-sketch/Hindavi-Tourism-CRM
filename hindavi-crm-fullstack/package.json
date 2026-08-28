@@ -1,0 +1,12 @@
+{
+  "name": "hindavi-tourism-crm-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local full-stack CRM and travel planning prototype for Hindavi Tourism",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.mjs"
+  },
+  "engines": { "node": ">=22.5" }
+}
