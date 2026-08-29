@@ -53,7 +53,7 @@ const validators = {
   visas: x => { const total = number(x.total, 1, 100, 'Checklist total', true), done = number(x.done, 0, total, 'Documents complete', true), status = one(x.status, visaStates, 'Status'); if (['Submitted', 'Approved'].includes(status) && done !== total) fail('Complete the checklist before marking Submitted or Approved.'); return { ...x, applicant: text(x.applicant, 'Applicant'), country: text(x.country, 'Country'), appointment: optionalDate(x.appointment, 'Appointment'), fee: money(x.fee, 'Visa fee'), total, done, status }; },
   payments: x => { const total = money(x.total, 'Invoice total'), received = money(x.received ?? 0, 'Received'); if (received > total) fail('Received amount cannot exceed the invoice total.'); return { ...x, invoice: text(x.invoice, 'Invoice').toUpperCase(), customer: text(x.customer, 'Customer'), total, received, due: date(x.due, 'Due date'), receipts: Array.isArray(x.receipts) ? x.receipts : [] }; },
   suppliers: x => ({ ...x, name: text(x.name, 'Supplier name'), type: one(x.type, ['Hotel', 'DMC', 'Transport', 'Airline', 'Other'], 'Supplier type'), location: text(x.location, 'Location'), lastRate: money(x.lastRate, 'Saved rate'), outstanding: money(x.outstanding, 'Outstanding'), rating: number(x.rating, 0, 5, 'Rating'), status: one(x.status, ['Available', 'Limited', 'Unavailable'], 'Availability') }),
-  packages: x => ({ ...x, name: text(x.name, 'Package name'), destination: text(x.destination, 'Destination'), duration: text(x.duration, 'Duration'), nights: number(x.nights, 1, 60, 'Nights', true), route: text(x.route, 'Route'), price: money(x.price, 'Price'), type: one(x.type, ['Domestic', 'International'], 'Trip type'), theme: one(x.theme, ['Family', 'Honeymoon', 'Adventure', 'Culture'], 'Theme'), flights: one(x.flights, ['Included', 'Not included'], 'Flight inclusion'), stars: number(x.stars, 1, 5, 'Hotel stars'), color: one(x.color || 'kerala', ['japan', 'kashmir', 'bali', 'dubai', 'kerala'], 'Card colour'), tagline: text(x.tagline, 'Tagline'), itinerary: text(x.itinerary, 'Itinerary'), details: text(x.details, 'Details') })
+  packages: x => ({ ...x, name: text(x.name, 'Package name'), destination: text(x.destination, 'Destination'), duration: text(x.duration, 'Duration'), nights: number(x.nights, 1, 60, 'Nights', true), route: text(x.route, 'Route'), price: money(x.price, 'Price'), type: one(x.type, ['Domestic', 'International'], 'Trip type'), theme: one(x.theme, ['Family', 'Honeymoon', 'Adventure', 'Culture'], 'Theme'), flights: one(x.flights, ['Included', 'Not included'], 'Flight inclusion'), stars: number(x.stars, 1, 5, 'Hotel stars'), color: one(x.color || 'kerala', ['japan', 'kashmir', 'bali', 'dubai', 'kerala'], 'Card colour'), tagline: text(x.tagline, 'Tagline'), itinerary: text(x.itinerary, 'Itinerary'), details: text(x.details, 'Details'), image: imageUrl(x.image) })
 };
 
 function fail(message, status = 400) { const error = new Error(message); error.status = status; throw error; }
@@ -64,7 +64,58 @@ function money(value, label) { const out = typeof value === 'string' ? Number(va
 function date(value, label) { const out = String(value || ''); const d = new Date(`${out}T12:00:00Z`); if (!/^\d{4}-\d{2}-\d{2}$/.test(out) || Number.isNaN(d.valueOf()) || d.toISOString().slice(0, 10) !== out) fail(`${label} must be a real date.`); return out; }
 function optionalDate(value, label) { return value ? date(value, label) : ''; }
 function phone(value) { const out = String(value || '').replace(/[\s()-]/g, ''); if (!/^\+?\d{10,15}$/.test(out)) fail('Enter a valid 10–15 digit phone number.'); return out; }
+function imageUrl(value) { if (!value) return ''; try { const url = new URL(String(value)); if (url.protocol !== 'https:' || url.hostname !== 'loremflickr.com') fail('Package image must use the approved HTTPS image host.'); return url.href; } catch (error) { if (error.status) throw error; fail('Package image URL is invalid.'); } }
+function optionalText(value, label, limit = 5000) { const out = String(value ?? '').trim(); if (out.length > limit) fail(`${label} is too long.`); return out; }
+function recordId(value) { const out = String(value || ''); if (!/^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$/.test(out)) fail('Record ID is invalid.'); return out; }
 function idFor(collection) { return `${collection.slice(0, 3).toUpperCase()}-${randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}`; }
+
+function validateRecord(collection, value) {
+  const record = validators[collection](value);
+  record.id = recordId(record.id);
+  return record;
+}
+
+const metaValidators = {
+  settings: value => ({
+    business: text(value.business, 'Business name'),
+    gstin: optionalText(value.gstin, 'GSTIN', 50),
+    phone: phone(value.phone),
+    email: optionalText(value.email, 'Email', 320),
+    address: optionalText(value.address, 'Address'),
+    payment: optionalText(value.payment, 'Payment instructions'),
+    terms: optionalText(value.terms, 'Quotation terms')
+  }),
+  quote: value => {
+    if (!Array.isArray(value.items) || value.items.length > 100) fail('Quotation items must be a list of at most 100 entries.');
+    return {
+      customer: optionalText(value.customer, 'Customer'), phone: value.phone ? phone(value.phone) : '', email: optionalText(value.email, 'Email', 320),
+      destination: optionalText(value.destination, 'Destination'), start: optionalDate(value.start, 'Start date'), duration: optionalText(value.duration, 'Duration'),
+      travellers: number(value.travellers ?? 1, 1, 100, 'Travellers', true), departure: optionalText(value.departure, 'Departure city'),
+      itinerary: optionalText(value.itinerary, 'Itinerary', 20000), details: optionalText(value.details, 'Travel details', 20000), taxRate: number(value.taxRate ?? 0, 0, 100, 'Tax rate'),
+      items: value.items.map((item, index) => { if (!item || typeof item !== 'object' || Array.isArray(item)) fail(`Quotation item ${index + 1} is invalid.`); return { name: optionalText(item.name, `Quotation item ${index + 1}`, 500), cost: money(item.cost ?? 0, 'Item cost'), markup: number(item.markup ?? 0, 0, 500, 'Markup') }; })
+    };
+  },
+  explorer: value => {
+    if (!Array.isArray(value.saved) || value.saved.length > 200) fail('Saved packages must be a list of at most 200 IDs.');
+    if (!Array.isArray(value.recent) || value.recent.length > 20) fail('Recent searches must be a list of at most 20 entries.');
+    const recent = value.recent.map((entry, index) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) fail(`Recent search ${index + 1} is invalid.`);
+      const mode = one(entry.mode, ['holidays', 'flights', 'hotels', 'cabs', 'trains', 'bus'], 'Travel mode');
+      const trip = entry.trip ? one(entry.trip, ['oneway', 'return', 'multi'], 'Trip option') : 'oneway';
+      const cabin = entry.cabin ? one(entry.cabin, ['Economy', 'Premium economy', 'Business'], 'Cabin') : 'Economy';
+      const legs = entry.legs === undefined ? [] : Array.isArray(entry.legs) && entry.legs.length <= 4 ? entry.legs.map((leg, legIndex) => {
+        if (!leg || typeof leg !== 'object' || Array.isArray(leg)) fail(`Flight leg ${legIndex + 1} is invalid.`);
+        return { from: text(leg.from, 'Leg origin'), to: text(leg.to, 'Leg destination'), date: date(leg.date, 'Leg date') };
+      }) : fail('Flight legs must be a list of at most four entries.');
+      return {
+        mode, from: optionalText(entry.from, 'Origin', 200), to: optionalText(entry.to, 'Destination', 200), departure: date(entry.departure, 'Departure'),
+        returnDate: optionalDate(entry.returnDate, 'Return date'), adults: number(entry.adults ?? 1, 1, 20, 'Adults', true), children: number(entry.children ?? 0, 0, 10, 'Children', true),
+        infants: number(entry.infants ?? 0, 0, 10, 'Infants', true), rooms: number(entry.rooms ?? 1, 1, 20, 'Rooms', true), trip, cabin, ...(trip === 'multi' ? { legs } : {})
+      };
+    });
+    return { saved: [...new Set(value.saved.map(recordId))], recent };
+  }
+};
 
 export function openDatabase(filename) {
   const sql = new DatabaseSync(filename);
@@ -73,7 +124,7 @@ export function openDatabase(filename) {
     CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY,data TEXT NOT NULL);`);
   if (!sql.prepare('SELECT COUNT(*) count FROM records').get().count) {
     const insert = sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)'); sql.exec('BEGIN');
-    try { for (const [collection, rows] of Object.entries(seed)) for (const row of rows) insert.run(collection, row.id, JSON.stringify(validators[collection](row))); sql.exec('COMMIT'); }
+    try { for (const [collection, rows] of Object.entries(seed)) for (const row of rows) { const record = validateRecord(collection, row); insert.run(collection, record.id, JSON.stringify(record)); } sql.exec('COMMIT'); }
     catch (error) { sql.exec('ROLLBACK'); throw error; }
   }
   const defaults = {
@@ -85,14 +136,28 @@ export function openDatabase(filename) {
     close: () => sql.close(),
     list(collection) { ensureCollection(collection); return sql.prepare('SELECT data FROM records WHERE collection=? ORDER BY created_at DESC').all(collection).map(row => JSON.parse(row.data)); },
     get(collection, id) { ensureCollection(collection); const row = sql.prepare('SELECT data FROM records WHERE collection=? AND id=?').get(collection, id); if (!row) fail('Record not found.', 404); return JSON.parse(row.data); },
-    save(collection, value, id = '') { ensureCollection(collection); const record = validators[collection]({ ...value, id: id || value.id || idFor(collection) }); if (id && !sql.prepare('SELECT 1 FROM records WHERE collection=? AND id=?').get(collection, id)) fail('Record not found.', 404); sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?) ON CONFLICT(collection,id) DO UPDATE SET data=excluded.data,updated_at=CURRENT_TIMESTAMP').run(collection, record.id, JSON.stringify(record)); return record; },
+    save(collection, value, id = '') { ensureCollection(collection); const record = validateRecord(collection, { ...value, id: id ? recordId(id) : idFor(collection) }); if (id) { const result = sql.prepare('UPDATE records SET data=?,updated_at=CURRENT_TIMESTAMP WHERE collection=? AND id=?').run(JSON.stringify(record), collection, record.id); if (!result.changes) fail('Record not found.', 404); } else sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)').run(collection, record.id, JSON.stringify(record)); return record; },
     remove(collection, id) { ensureCollection(collection); const result = sql.prepare('DELETE FROM records WHERE collection=? AND id=?').run(collection, id); if (!result.changes) fail('Record not found.', 404); },
     state() { return Object.fromEntries([...collections.map(name => [name, api.list(name)]), ...['settings', 'quote', 'explorer'].map(key => [key, api.meta(key)])]); },
-    meta(key, value) { if (!['settings', 'quote', 'explorer'].includes(key)) fail('Unknown setting.', 404); if (value === undefined) return JSON.parse(sql.prepare('SELECT data FROM meta WHERE key=?').get(key).data); if (!value || typeof value !== 'object' || Array.isArray(value)) fail('Setting must be an object.'); sql.prepare('UPDATE meta SET data=? WHERE key=?').run(JSON.stringify(value), key); return value; },
+    meta(key, value) { if (!metaValidators[key]) fail('Unknown setting.', 404); if (value === undefined) return JSON.parse(sql.prepare('SELECT data FROM meta WHERE key=?').get(key).data); if (!value || typeof value !== 'object' || Array.isArray(value)) fail('Setting must be an object.'); const validated = metaValidators[key](value); sql.prepare('UPDATE meta SET data=? WHERE key=?').run(JSON.stringify(validated), key); return validated; },
     receipt(paymentId, input) { const payment = api.get('payments', paymentId), amount = money(input.amount, 'Payment amount'); if (amount <= 0) fail('Payment amount must be greater than zero.'); if (Math.round((payment.received + amount) * 100) > Math.round(payment.total * 100)) fail('Payment exceeds the outstanding balance.'); const receipt = { id: `REC-${randomUUID().slice(0, 8).toUpperCase()}`, amount, date: date(input.date, 'Payment date'), method: one(input.method, ['UPI', 'Bank transfer', 'Cash', 'Card', 'Other'], 'Payment method'), reference: String(input.reference || '').trim() }; payment.receipts = [...payment.receipts, receipt]; payment.received = Math.round((payment.received + amount) * 100) / 100; api.save('payments', payment, payment.id); return { payment, receipt }; },
-    confirmBooking(id) { sql.exec('BEGIN IMMEDIATE'); try { const booking = api.get('bookings', id); if (booking.status === 'Confirmed' && booking.invoice) { sql.exec('COMMIT'); return { booking, payment: api.list('payments').find(p => p.invoice === booking.invoice) }; } const invoice = booking.invoice || `INV-${String(Date.now()).slice(-6)}`; booking.status = 'Confirmed'; booking.stage = 5; booking.invoice = invoice; api.save('bookings', booking, id); let payment = api.list('payments').find(p => p.invoice === invoice); if (!payment) payment = api.save('payments', { invoice, customer: booking.customer, total: booking.total, received: 0, due: booking.departure, receipts: [] }); sql.exec('COMMIT'); return { booking, payment }; } catch (error) { sql.exec('ROLLBACK'); throw error; } },
+    confirmBooking(id) { sql.exec('BEGIN IMMEDIATE'); try {
+      const booking = api.get('bookings', id), invoice = booking.invoice || `INV-${String(Date.now()).slice(-6)}`;
+      booking.status = 'Confirmed'; booking.stage = 5; booking.invoice = invoice; api.save('bookings', booking, id);
+      let payment = api.list('payments').find(p => p.invoice === invoice);
+      if (!payment) payment = api.save('payments', { invoice, customer: booking.customer, total: booking.total, received: 0, due: booking.departure, receipts: [] });
+      const normalizedName = booking.customer.trim().toLowerCase();
+      let customer = api.list('customers').find(row => row.phone === booking.phone || row.name.trim().toLowerCase() === normalizedName);
+      const lastTrip = `${booking.trip} · ${booking.departure.slice(0, 4)}`;
+      customer = customer
+        ? api.save('customers', { ...customer, name: booking.customer, phone: booking.phone, lastTrip }, customer.id)
+        : api.save('customers', { name: booking.customer, phone: booking.phone, documents: '', lastTrip });
+      const lead = api.list('leads').find(row => row.phone === booking.phone || row.name.trim().toLowerCase() === normalizedName);
+      if (lead && lead.status !== 'Confirmed') api.save('leads', { ...lead, status: 'Confirmed' }, lead.id);
+      sql.exec('COMMIT'); return { booking, payment, customer };
+    } catch (error) { sql.exec('ROLLBACK'); throw error; } },
     backup() { return { schema: 1, exportedAt: new Date().toISOString(), ...api.state() }; },
-    restore(value) { if (!value || value.schema !== 1) fail('Unsupported backup file.'); for (const collection of collections) if (!Array.isArray(value[collection])) fail(`Backup is missing ${collection}.`); sql.exec('BEGIN IMMEDIATE'); try { sql.exec('DELETE FROM records'); const insert = sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)'); for (const collection of collections) for (const row of value[collection]) { const record = validators[collection](row); if (!record.id) fail(`A ${collection} record has no id.`); insert.run(collection, record.id, JSON.stringify(record)); } for (const key of ['settings', 'quote', 'explorer']) api.meta(key, value[key] || {}); sql.exec('COMMIT'); return api.state(); } catch (error) { sql.exec('ROLLBACK'); throw error; } }
+    restore(value) { if (!value || value.schema !== 1) fail('Unsupported backup file.'); for (const collection of collections) if (!Array.isArray(value[collection])) fail(`Backup is missing ${collection}.`); sql.exec('BEGIN IMMEDIATE'); try { sql.exec('DELETE FROM records'); const insert = sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)'); for (const collection of collections) for (const row of value[collection]) { const record = validateRecord(collection, row); insert.run(collection, record.id, JSON.stringify(record)); } for (const key of ['settings', 'quote', 'explorer']) api.meta(key, value[key] || {}); sql.exec('COMMIT'); return api.state(); } catch (error) { sql.exec('ROLLBACK'); throw error; } }
   }; return api;
 }
 
