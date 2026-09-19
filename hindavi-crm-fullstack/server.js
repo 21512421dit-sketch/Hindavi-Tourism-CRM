@@ -17,8 +17,8 @@ const security = {
   'Cross-Origin-Resource-Policy': 'same-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()'
 };
-const employeeRead = new Set(['leads', 'customers', 'bookings', 'visas', 'packages']);
-const employeeWrite = new Set(['leads', 'customers', 'bookings', 'visas', 'packages']);
+const employeeRead = new Set(['leads', 'customers', 'trips', 'quotes', 'bookings', 'visas', 'documents', 'tasks', 'communications', 'serviceCases', 'packages']);
+const employeeWrite = new Set(['leads', 'customers', 'trips', 'quotes', 'bookings', 'visas', 'documents', 'tasks', 'communications', 'serviceCases', 'packages']);
 const sessionAbsoluteMs = 8 * 60 * 60 * 1000;
 const sessionIdleMs = 30 * 60 * 1000;
 const loginWindowMs = 15 * 60 * 1000;
@@ -35,12 +35,12 @@ function secureCookie(request) { return request.socket.encrypted ? '; Secure' : 
 function sessionCookie(request, token, maxAge = 28800) { return `hindavi_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secureCookie(request)}`; }
 function safeEqual(a, b) { const left = Buffer.from(String(a || '')), right = Buffer.from(String(b || '')); return left.length === right.length && timingSafeEqual(left, right); }
 function employeeBranding(settings) { return { business: settings.business || 'Hindavi Tourism' }; }
-function employeeBooking(row) { const { total, taxRate, invoice, ...safe } = row; return safe; }
+function employeeBooking(row) { const { total, taxRate, invoice, supplierCost, deposit, refund, ...safe } = row; return safe; }
 function sanitizeRecord(user, collection, record) { return user.role === 'employee' && collection === 'bookings' ? employeeBooking(record) : record; }
 function stateFor(db, user) {
   const state = db.state();
   if (user.role === 'admin') return state;
-  return { leads: state.leads, customers: state.customers, bookings: state.bookings.map(employeeBooking), visas: state.visas, payments: [], suppliers: [], packages: state.packages, settings: employeeBranding(state.settings), quote: state.quote, explorer: state.explorer };
+  return { ...state, bookings: state.bookings.map(employeeBooking), payments: [], suppliers: [], settings: employeeBranding(state.settings) };
 }
 
 export function createServer({ database = join(root, 'data', 'hindavi.sqlite'), authDatabase = join(dirname(database), 'auth.sqlite'), credentials = null, requirePasswordChange = true } = {}) {
@@ -86,7 +86,7 @@ export function createServer({ database = join(root, 'data', 'hindavi.sqlite'), 
   function canRead(user, collection) { return user.role === 'admin' || employeeRead.has(collection); }
   function canWrite(user, collection) { return user.role === 'admin' || employeeWrite.has(collection); }
   function employeeBookingInput(input, existing = null) {
-    return existing ? { ...existing, ...input, total: existing.total, taxRate: existing.taxRate, invoice: existing.invoice, status: existing.status, stage: existing.stage === 5 ? 5 : Math.min(4, Math.max(1, Number(input.stage) || existing.stage || 1)) } : { ...input, total: 0, taxRate: 0, invoice: '', status: 'Pending', stage: Math.min(4, Math.max(1, Number(input.stage) || 1)) };
+    return existing ? { ...existing, ...input, total: existing.total, taxRate: existing.taxRate, invoice: existing.invoice, supplierCost: existing.supplierCost || 0, deposit: existing.deposit || 0, refund: existing.refund || 0, status: existing.status, stage: existing.stage === 5 ? 5 : Math.min(4, Math.max(1, Number(input.stage) || existing.stage || 1)) } : { ...input, total: 0, taxRate: 0, invoice: '', supplierCost: 0, deposit: 0, refund: 0, status: 'Pending', stage: Math.min(4, Math.max(1, Number(input.stage) || 1)) };
   }
 
   const server = http.createServer(async (request, response) => {

@@ -1,10 +1,11 @@
 import { DatabaseSync } from 'node:sqlite';
 import { randomUUID } from 'node:crypto';
 
-export const collections = ['leads', 'customers', 'bookings', 'visas', 'payments', 'suppliers', 'packages'];
+export const collections = ['leads', 'customers', 'trips', 'quotes', 'bookings', 'visas', 'documents', 'tasks', 'communications', 'serviceCases', 'payments', 'suppliers', 'packages'];
 const leadStates = ['New', 'Follow-up', 'Quotation', 'Confirmed', 'Lost'];
 const bookingStates = ['Pending', 'Confirmed', 'Cancelled'];
 const visaStates = ['Documents pending', 'Appointment booked', 'Submitted', 'Approved', 'Rejected'];
+const currencies = ['INR', 'USD', 'EUR', 'GBP', 'AED', 'JPY', 'SGD', 'IDR'];
 
 const seed = {
   leads: [
@@ -13,24 +14,40 @@ const seed = {
     { id: 'LEAD-ANITA', name: 'Anita Joshi', phone: '9967233021', destination: 'Kerala', date: '2026-09-20', source: 'Instagram', status: 'Quotation', owner: 'Neha', followup: '2026-08-30' }
   ],
   customers: [
-    { id: 'CUS-PRIYA', name: 'Priya Patil', phone: '9876543210', documents: 'Passport, Aadhaar', lastTrip: 'Goa · 2025' },
-    { id: 'CUS-RAHUL', name: 'Rahul Shah', phone: '9821011442', documents: 'Passport', lastTrip: 'Singapore · 2024' }
+    { id: 'CUS-PRIYA', name: 'Priya Patil', phone: '9876543210', email: 'priya@example.test', household: 'Patil family', preferences: 'Window seats; vegetarian meals', interests: 'Nature, snow, photography', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp and email', documents: 'Passport checklist complete', lastTrip: 'Goa · 2025' },
+    { id: 'CUS-RAHUL', name: 'Rahul Shah', phone: '9821011442', email: 'rahul@example.test', household: '', preferences: 'Boutique hotels; relaxed pace', interests: 'Food, culture', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp', documents: 'Passport checklist complete', lastTrip: 'Singapore · 2024' }
   ],
+  trips: [
+    { id: 'TRIP-KERALA-26077', name: 'Anita · Kerala', customer: 'Anita Joshi', customerId: '', destination: 'Kerala', start: '2026-09-20', end: '2026-09-25', status: 'Planning', currency: 'INR', timezone: 'Asia/Kolkata', travelers: 'Anita Joshi|Lead traveler|Details complete', rooming: 'Anita Joshi|Double room', itinerary: 'Munnar · Thekkady · Alleppey', transport: 'Private ground transfers', stays: 'Hotel and houseboat options pending', activities: 'Tea gardens; backwaters', notes: 'Link all new operational work to this trip.' }
+  ],
+  quotes: [],
   bookings: [
     { id: 'HT-26081', customer: 'Sameer More', phone: '9769088214', trip: 'Europe', type: 'International', services: 'Flight, Hotel, Visa', departure: '2026-12-02', return: '2026-12-12', total: 640000, taxRate: 5, status: 'Confirmed', stage: 5, invoice: 'INV-1082' },
-    { id: 'HT-26077', customer: 'Anita Joshi', phone: '9967233021', trip: 'Kerala', type: 'Domestic', services: 'Hotel, Transfer', departure: '2026-09-20', return: '2026-09-25', total: 98000, taxRate: 5, status: 'Pending', stage: 2, invoice: '' }
+    { id: 'HT-26077', tripId: 'TRIP-KERALA-26077', customer: 'Anita Joshi', phone: '9967233021', trip: 'Kerala', type: 'Domestic', services: 'Hotel, Transfer', supplierId: '', confirmation: '', currency: 'INR', supplierCost: 76000, deposit: 25000, cancellation: '', refund: 0, departure: '2026-09-20', return: '2026-09-25', total: 98000, taxRate: 5, status: 'Pending', stage: 2, invoice: '' }
   ],
   visas: [
     { id: 'V-301', applicant: 'Sameer More', country: 'Schengen', appointment: '2026-09-05', done: 8, total: 10, fee: 9800, status: 'Documents pending' },
     { id: 'V-302', applicant: 'Ayesha Khan', country: 'Dubai', appointment: '', done: 6, total: 6, fee: 7200, status: 'Approved' },
     { id: 'V-303', applicant: 'Rahul Shah', country: 'Singapore', appointment: '2026-08-18', done: 7, total: 7, fee: 3400, status: 'Submitted' }
   ],
+  documents: [
+    { id: 'DOC-ANITA-PASSPORT', tripId: 'TRIP-KERALA-26077', traveler: 'Anita Joshi', type: 'Photo ID', status: 'Received', expiry: '', owner: 'Neha', retentionUntil: '2027-03-25', notes: 'Checklist metadata only; do not store identity numbers or scans here.' }
+  ],
+  tasks: [
+    { id: 'TASK-KERALA-HOTEL', tripId: 'TRIP-KERALA-26077', title: 'Confirm Kerala hotel options', type: 'Confirmation', owner: 'Neha', due: '2026-09-10', priority: 'High', status: 'Open', escalated: 'No', notes: 'Confirm cancellation terms before customer approval.' }
+  ],
+  communications: [
+    { id: 'COM-KERALA-FOLLOWUP', tripId: 'TRIP-KERALA-26077', customerId: '', customer: 'Anita Joshi', channel: 'WhatsApp', direction: 'Outbound', occurredAt: '2026-09-01', subject: 'Quotation follow-up', summary: 'Asked the traveler to confirm hotel preference.', followup: '2026-09-03', owner: 'Neha' }
+  ],
+  serviceCases: [
+    { id: 'CASE-KERALA-CHANGE', tripId: 'TRIP-KERALA-26077', customer: 'Anita Joshi', type: 'Change request', urgency: 'Normal', owner: 'Neha', status: 'Open', opened: '2026-09-01', resolution: '', customerUpdate: 'Acknowledged; revised hotel options are being checked.' }
+  ],
   payments: [
     { id: 'PAY-1082', invoice: 'INV-1082', customer: 'Sameer More', total: 640000, received: 320000, due: '2026-08-30', receipts: [{ id: 'REC-OPEN-1082', amount: 320000, date: '2026-08-20', method: 'Bank transfer', reference: 'Opening balance' }] },
-    { id: 'PAY-1078', invoice: 'INV-1078', customer: 'Anita Joshi', total: 98000, received: 98000, due: '2026-08-05', receipts: [{ id: 'REC-OPEN-1078', amount: 98000, date: '2026-08-05', method: 'UPI', reference: 'Opening balance' }] }
+    { id: 'PAY-1078', tripId: 'TRIP-KERALA-26077', invoice: 'INV-1078', customer: 'Anita Joshi', currency: 'INR', total: 98000, received: 98000, due: '2026-08-05', receipts: [{ id: 'REC-OPEN-1078', amount: 98000, date: '2026-08-05', method: 'UPI', reference: 'Opening balance' }] }
   ],
   suppliers: [
-    { id: 'SUP-SNOWLINE', name: 'Snowline Hotels', type: 'Hotel', location: 'Kashmir', outstanding: 48000, rating: 4.8, status: 'Available', lastRate: 4250 },
+    { id: 'SUP-SNOWLINE', name: 'Snowline Hotels', type: 'Hotel', contact: 'Reservations desk', phone: '919811111111', email: 'reservations@example.test', services: 'Rooms and meal plans', terms: 'Net rates; 30-day validity', contractUntil: '2027-03-31', confirmationNotes: 'Email confirmation required', performance: 'Reliable confirmations', location: 'Kashmir', outstanding: 48000, rating: 4.8, status: 'Available', lastRate: 4250 },
     { id: 'SUP-DESERT', name: 'Desert Pearl DMC', type: 'DMC', location: 'Dubai', outstanding: 110000, rating: 4.6, status: 'Available', lastRate: 12900 },
     { id: 'SUP-KONKAN', name: 'Konkan Wheels', type: 'Transport', location: 'Maharashtra', outstanding: 12500, rating: 4.7, status: 'Limited', lastRate: 4800 }
   ],
@@ -47,12 +64,18 @@ const seed = {
 };
 
 const validators = {
-  leads: x => ({ ...x, name: text(x.name, 'Name'), phone: phone(x.phone), destination: text(x.destination, 'Destination'), date: date(x.date, 'Travel date'), source: one(x.source, ['Website', 'WhatsApp', 'Instagram', 'Referral'], 'Source'), owner: text(x.owner, 'Owner'), followup: optionalDate(x.followup, 'Follow-up date'), status: one(x.status, leadStates, 'Status') }),
-  customers: x => ({ ...x, name: text(x.name, 'Name'), phone: phone(x.phone), documents: String(x.documents || '').trim(), lastTrip: String(x.lastTrip || '').trim() }),
-  bookings: x => { const departure = date(x.departure, 'Departure'), returnDate = date(x.return, 'Return'); if (returnDate < departure) fail('Return cannot be before departure.'); return { ...x, customer: text(x.customer, 'Customer'), phone: phone(x.phone), trip: text(x.trip, 'Destination'), type: one(x.type, ['Domestic', 'International'], 'Trip type'), services: text(x.services, 'Services'), departure, return: returnDate, total: money(x.total, 'Total'), taxRate: number(x.taxRate ?? 5, 0, 100, 'Tax rate'), status: one(x.status || 'Pending', bookingStates, 'Status'), stage: number(x.stage ?? 1, 1, 5, 'Stage', true), invoice: String(x.invoice || '') }; },
+  leads: x => ({ ...x, name: text(x.name, 'Name'), phone: phone(x.phone), destination: text(x.destination, 'Destination'), date: date(x.date, 'Travel date'), partySize: number(x.partySize ?? 1, 1, 200, 'Party size', true), budget: money(x.budget ?? 0, 'Budget'), tripStyle: optionalText(x.tripStyle, 'Trip style'), source: one(x.source, ['Website', 'Phone', 'Email', 'WhatsApp', 'Instagram', 'Social', 'Agent', 'Referral', 'Walk-in'], 'Source'), owner: text(x.owner, 'Owner'), followup: optionalDate(x.followup, 'Follow-up date'), status: one(x.status, leadStates, 'Status') }),
+  customers: x => ({ ...x, name: text(x.name, 'Name'), phone: phone(x.phone), email: optionalText(x.email, 'Email', 320), household: optionalText(x.household, 'Household or group'), preferences: optionalText(x.preferences, 'Travel preferences'), interests: optionalText(x.interests, 'Interests'), accessibility: optionalText(x.accessibility, 'Accessibility needs'), loyalty: one(x.loyalty || 'New', ['New', 'Returning', 'VIP'], 'Loyalty status'), consent: one(x.consent || 'None recorded', ['None recorded', 'WhatsApp', 'Email', 'WhatsApp and email', 'Do not contact'], 'Communication consent'), documents: optionalText(x.documents, 'Document notes'), lastTrip: optionalText(x.lastTrip, 'Last trip') }),
+  trips: x => { const start = date(x.start, 'Start date'), end = date(x.end, 'End date'); if (end < start) fail('Trip end cannot be before its start.'); return { ...x, name: text(x.name, 'Trip name'), customer: text(x.customer, 'Lead traveler'), customerId: optionalText(x.customerId, 'Customer ID', 64), destination: text(x.destination, 'Destination'), start, end, status: one(x.status || 'Planning', ['Planning', 'Quoted', 'Booked', 'Travelling', 'Completed', 'Cancelled'], 'Trip status'), currency: one(x.currency || 'INR', currencies, 'Currency'), timezone: optionalText(x.timezone || 'Asia/Kolkata', 'Time zone', 100), travelers: optionalText(x.travelers, 'Traveler manifest', 20000), rooming: optionalText(x.rooming, 'Rooming list', 20000), itinerary: optionalText(x.itinerary, 'Shared itinerary', 20000), transport: optionalText(x.transport, 'Transport', 10000), stays: optionalText(x.stays, 'Stays', 10000), activities: optionalText(x.activities, 'Activities', 10000), notes: optionalText(x.notes, 'Trip notes', 20000) }; },
+  quotes: x => { if (!Array.isArray(x.items) || x.items.length > 100) fail('Quote items must be a list of at most 100 entries.'); const currency = one(x.currency || 'INR', currencies, 'Currency'); const items = x.items.map((item, index) => ({ name: text(item.name, `Quote item ${index + 1}`), cost: money(item.cost, 'Item cost'), markup: number(item.markup ?? 0, 0, 500, 'Markup') })); return { ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), customer: text(x.customer, 'Customer'), destination: text(x.destination, 'Destination'), version: number(x.version ?? 1, 1, 999, 'Version', true), status: one(x.status || 'Draft', ['Draft', 'Sent', 'Approved', 'Declined', 'Expired'], 'Quote status'), expiry: optionalDate(x.expiry, 'Expiry date'), currency, inclusions: optionalText(x.inclusions, 'Inclusions', 20000), exclusions: optionalText(x.exclusions, 'Exclusions', 20000), itinerary: optionalText(x.itinerary, 'Itinerary', 20000), acceptedOn: optionalDate(x.acceptedOn, 'Accepted date'), items, taxRate: number(x.taxRate ?? 0, 0, 100, 'Tax rate') }; },
+  bookings: x => { const departure = date(x.departure, 'Departure'), returnDate = date(x.return, 'Return'); if (returnDate < departure) fail('Return cannot be before departure.'); return { ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), customer: text(x.customer, 'Customer'), phone: phone(x.phone), trip: text(x.trip, 'Destination'), type: one(x.type, ['Domestic', 'International'], 'Trip type'), services: text(x.services, 'Services'), supplierId: optionalText(x.supplierId, 'Supplier ID', 64), confirmation: optionalText(x.confirmation, 'Confirmation details'), currency: one(x.currency || 'INR', currencies, 'Currency'), supplierCost: money(x.supplierCost ?? 0, 'Supplier cost'), deposit: money(x.deposit ?? 0, 'Deposit'), cancellation: optionalText(x.cancellation, 'Cancellation details'), refund: money(x.refund ?? 0, 'Refund'), departure, return: returnDate, total: money(x.total, 'Total'), taxRate: number(x.taxRate ?? 5, 0, 100, 'Tax rate'), status: one(x.status || 'Pending', bookingStates, 'Status'), stage: number(x.stage ?? 1, 1, 5, 'Stage', true), invoice: String(x.invoice || '') }; },
   visas: x => { const total = number(x.total, 1, 100, 'Checklist total', true), done = number(x.done, 0, total, 'Documents complete', true), status = one(x.status, visaStates, 'Status'); if (['Submitted', 'Approved'].includes(status) && done !== total) fail('Complete the checklist before marking Submitted or Approved.'); return { ...x, applicant: text(x.applicant, 'Applicant'), country: text(x.country, 'Country'), appointment: optionalDate(x.appointment, 'Appointment'), fee: money(x.fee, 'Visa fee'), total, done, status }; },
-  payments: x => { const total = money(x.total, 'Invoice total'), received = money(x.received ?? 0, 'Received'); if (received > total) fail('Received amount cannot exceed the invoice total.'); return { ...x, invoice: text(x.invoice, 'Invoice').toUpperCase(), customer: text(x.customer, 'Customer'), total, received, due: date(x.due, 'Due date'), receipts: Array.isArray(x.receipts) ? x.receipts : [] }; },
-  suppliers: x => ({ ...x, name: text(x.name, 'Supplier name'), type: one(x.type, ['Hotel', 'DMC', 'Transport', 'Airline', 'Other'], 'Supplier type'), location: text(x.location, 'Location'), lastRate: money(x.lastRate, 'Saved rate'), outstanding: money(x.outstanding, 'Outstanding'), rating: number(x.rating, 0, 5, 'Rating'), status: one(x.status, ['Available', 'Limited', 'Unavailable'], 'Availability') }),
+  documents: x => ({ ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), traveler: text(x.traveler, 'Traveler'), type: one(x.type, ['Passport', 'Visa', 'Photo ID', 'Insurance', 'Consent', 'Other'], 'Document type'), status: one(x.status, ['Required', 'Requested', 'Received', 'Verified', 'Expired', 'Deleted'], 'Document status'), expiry: optionalDate(x.expiry, 'Expiry date'), owner: text(x.owner, 'Owner'), retentionUntil: optionalDate(x.retentionUntil, 'Retention date'), notes: optionalText(x.notes, 'Notes', 5000) }),
+  tasks: x => ({ ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), title: text(x.title, 'Task'), type: one(x.type, ['Document check', 'Ticketing', 'Confirmation', 'Payment reminder', 'Pre-departure', 'Follow-up', 'Other'], 'Task type'), owner: text(x.owner, 'Owner'), due: date(x.due, 'Deadline'), priority: one(x.priority || 'Normal', ['Low', 'Normal', 'High', 'Urgent'], 'Priority'), status: one(x.status || 'Open', ['Open', 'In progress', 'Waiting', 'Done', 'Cancelled'], 'Task status'), escalated: one(x.escalated || 'No', ['No', 'Yes'], 'Escalation'), notes: optionalText(x.notes, 'Notes', 10000) }),
+  communications: x => ({ ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), customerId: optionalText(x.customerId, 'Customer ID', 64), customer: text(x.customer, 'Customer'), channel: one(x.channel, ['Email', 'Phone', 'WhatsApp', 'Chat', 'SMS', 'In person'], 'Channel'), direction: one(x.direction || 'Outbound', ['Inbound', 'Outbound'], 'Direction'), occurredAt: date(x.occurredAt, 'Communication date'), subject: text(x.subject, 'Subject'), summary: text(x.summary, 'Summary'), followup: optionalDate(x.followup, 'Follow-up date'), owner: text(x.owner, 'Owner') }),
+  serviceCases: x => ({ ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), customer: text(x.customer, 'Customer'), type: one(x.type, ['Change request', 'Complaint', 'Missed connection', 'Emergency', 'Refund', 'Other'], 'Case type'), urgency: one(x.urgency || 'Normal', ['Low', 'Normal', 'High', 'Critical'], 'Urgency'), owner: text(x.owner, 'Owner'), status: one(x.status || 'Open', ['Open', 'Investigating', 'Waiting', 'Resolved', 'Closed'], 'Case status'), opened: date(x.opened, 'Opened date'), resolution: optionalText(x.resolution, 'Resolution', 10000), customerUpdate: optionalText(x.customerUpdate, 'Customer update', 10000) }),
+  payments: x => { const total = money(x.total, 'Invoice total'), received = money(x.received ?? 0, 'Received'); if (received > total) fail('Received amount cannot exceed the invoice total.'); return { ...x, tripId: optionalText(x.tripId, 'Trip ID', 64), invoice: text(x.invoice, 'Invoice').toUpperCase(), customer: text(x.customer, 'Customer'), currency: one(x.currency || 'INR', currencies, 'Currency'), total, received, due: date(x.due, 'Due date'), receipts: Array.isArray(x.receipts) ? x.receipts : [] }; },
+  suppliers: x => ({ ...x, name: text(x.name, 'Supplier name'), type: one(x.type, ['Hotel', 'DMC', 'Transport', 'Airline', 'Other'], 'Supplier type'), contact: optionalText(x.contact, 'Contact person'), phone: x.phone ? phone(x.phone) : '', email: optionalText(x.email, 'Email', 320), services: optionalText(x.services, 'Services', 10000), terms: optionalText(x.terms, 'Contract terms', 10000), contractUntil: optionalDate(x.contractUntil, 'Contract expiry'), confirmationNotes: optionalText(x.confirmationNotes, 'Confirmation details', 10000), performance: optionalText(x.performance, 'Performance history', 10000), location: text(x.location, 'Location'), lastRate: money(x.lastRate, 'Saved rate'), outstanding: money(x.outstanding, 'Outstanding'), rating: number(x.rating, 0, 5, 'Rating'), status: one(x.status, ['Available', 'Limited', 'Unavailable'], 'Availability') }),
   packages: x => ({ ...x, name: text(x.name, 'Package name'), destination: text(x.destination, 'Destination'), duration: text(x.duration, 'Duration'), nights: number(x.nights, 1, 60, 'Nights', true), route: text(x.route, 'Route'), price: money(x.price, 'Price'), type: one(x.type, ['Domestic', 'International'], 'Trip type'), theme: one(x.theme, ['Family', 'Honeymoon', 'Adventure', 'Culture'], 'Theme'), flights: one(x.flights, ['Included', 'Not included'], 'Flight inclusion'), stars: number(x.stars, 1, 5, 'Hotel stars'), color: one(x.color || 'kerala', ['japan', 'kashmir', 'bali', 'dubai', 'kerala'], 'Card colour'), tagline: text(x.tagline, 'Tagline'), itinerary: text(x.itinerary, 'Itinerary'), details: text(x.details, 'Details'), image: imageUrl(x.image) })
 };
 
@@ -83,15 +106,18 @@ const metaValidators = {
     email: optionalText(value.email, 'Email', 320),
     address: optionalText(value.address, 'Address'),
     payment: optionalText(value.payment, 'Payment instructions'),
-    terms: optionalText(value.terms, 'Quotation terms')
+    terms: optionalText(value.terms, 'Quotation terms'),
+    documentRetentionDays: number(value.documentRetentionDays ?? 180, 1, 3650, 'Document retention days', true),
+    paymentProvider: optionalText(value.paymentProvider, 'Payment provider', 100),
+    bookingProvider: optionalText(value.bookingProvider, 'Booking provider', 100)
   }),
   quote: value => {
     if (!Array.isArray(value.items) || value.items.length > 100) fail('Quotation items must be a list of at most 100 entries.');
     return {
       customer: optionalText(value.customer, 'Customer'), phone: value.phone ? phone(value.phone) : '', email: optionalText(value.email, 'Email', 320),
-      destination: optionalText(value.destination, 'Destination'), start: optionalDate(value.start, 'Start date'), duration: optionalText(value.duration, 'Duration'),
+      tripId: optionalText(value.tripId, 'Trip ID', 64), destination: optionalText(value.destination, 'Destination'), start: optionalDate(value.start, 'Start date'), duration: optionalText(value.duration, 'Duration'),
       travellers: number(value.travellers ?? 1, 1, 100, 'Travellers', true), departure: optionalText(value.departure, 'Departure city'),
-      itinerary: optionalText(value.itinerary, 'Itinerary', 20000), details: optionalText(value.details, 'Travel details', 20000), taxRate: number(value.taxRate ?? 0, 0, 100, 'Tax rate'),
+      currency: one(value.currency || 'INR', currencies, 'Currency'), expiry: optionalDate(value.expiry, 'Expiry date'), inclusions: optionalText(value.inclusions, 'Inclusions', 20000), exclusions: optionalText(value.exclusions, 'Exclusions', 20000), itinerary: optionalText(value.itinerary, 'Itinerary', 20000), details: optionalText(value.details, 'Travel details', 20000), taxRate: number(value.taxRate ?? 0, 0, 100, 'Tax rate'),
       items: value.items.map((item, index) => { if (!item || typeof item !== 'object' || Array.isArray(item)) fail(`Quotation item ${index + 1} is invalid.`); return { name: optionalText(item.name, `Quotation item ${index + 1}`, 500), cost: money(item.cost ?? 0, 'Item cost'), markup: number(item.markup ?? 0, 0, 500, 'Markup') }; })
     };
   },
@@ -127,9 +153,27 @@ export function openDatabase(filename) {
     try { for (const [collection, rows] of Object.entries(seed)) for (const row of rows) { const record = validateRecord(collection, row); insert.run(collection, record.id, JSON.stringify(record)); } sql.exec('COMMIT'); }
     catch (error) { sql.exec('ROLLBACK'); throw error; }
   }
+  const legacyBookings = sql.prepare("SELECT id,data FROM records WHERE collection='bookings'").all();
+  if (legacyBookings.some(row => !JSON.parse(row.data).tripId)) {
+    const tripExists = sql.prepare("SELECT 1 FROM records WHERE collection='trips' AND id=?"), insertTrip = sql.prepare("INSERT INTO records (collection,id,data) VALUES ('trips',?,?)"), updateRecord = sql.prepare('UPDATE records SET data=?,updated_at=CURRENT_TIMESTAMP WHERE collection=? AND id=?');
+    sql.exec('BEGIN IMMEDIATE');
+    try {
+      for (const stored of legacyBookings) {
+        const booking = JSON.parse(stored.data); if (booking.tripId) continue;
+        const tripId = recordId(`TRIP-${booking.id}`);
+        if (!tripExists.get(tripId)) {
+          const trip = validateRecord('trips', { id: tripId, name: `${booking.customer} · ${booking.trip}`, customer: booking.customer, customerId: '', destination: booking.trip, start: booking.departure, end: booking.return, status: booking.status === 'Confirmed' ? 'Booked' : booking.status === 'Cancelled' ? 'Cancelled' : 'Planning', currency: booking.currency || 'INR', timezone: 'Asia/Kolkata', travelers: `${booking.customer}|Lead traveler|Review required`, rooming: '', itinerary: booking.services, transport: '', stays: '', activities: '', notes: 'Created automatically from an existing booking during the Trip-centered CRM upgrade.' });
+          insertTrip.run(tripId, JSON.stringify(trip));
+        }
+        booking.tripId = tripId; updateRecord.run(JSON.stringify(booking), 'bookings', booking.id);
+        if (booking.invoice) for (const paymentRow of sql.prepare("SELECT id,data FROM records WHERE collection='payments'").all()) { const payment = JSON.parse(paymentRow.data); if (payment.invoice === booking.invoice && !payment.tripId) { payment.tripId = tripId; updateRecord.run(JSON.stringify(payment), 'payments', payment.id); } }
+      }
+      sql.exec('COMMIT');
+    } catch (error) { sql.exec('ROLLBACK'); throw error; }
+  }
   const defaults = {
-    settings: { business: 'Hindavi Tourism', gstin: '27ABCDE1234F1Z5', phone: '919820000000', email: 'hello@hindavitourism.in', address: 'Pune, Maharashtra', payment: 'UPI / Bank transfer', terms: 'Prices and availability are subject to supplier confirmation.' },
-    quote: { customer: '', phone: '', email: '', destination: '', start: '', duration: '', travellers: 2, departure: 'Pune', itinerary: '', details: '', taxRate: 5, items: [] }, explorer: { saved: [], recent: [] }
+    settings: { business: 'Hindavi Tourism', gstin: '27ABCDE1234F1Z5', phone: '919820000000', email: 'hello@hindavitourism.in', address: 'Pune, Maharashtra', payment: 'UPI / Bank transfer', terms: 'Prices and availability are subject to supplier confirmation.', documentRetentionDays: 180, paymentProvider: '', bookingProvider: '' },
+    quote: { tripId: '', customer: '', phone: '', email: '', destination: '', start: '', duration: '', travellers: 2, departure: 'Pune', currency: 'INR', expiry: '', inclusions: '', exclusions: '', itinerary: '', details: '', taxRate: 5, items: [] }, explorer: { saved: [], recent: [] }
   };
   const putMeta = sql.prepare('INSERT OR IGNORE INTO meta (key,data) VALUES (?,?)'); for (const [key, value] of Object.entries(defaults)) putMeta.run(key, JSON.stringify(value));
   const api = {
@@ -145,19 +189,19 @@ export function openDatabase(filename) {
       const booking = api.get('bookings', id), invoice = booking.invoice || `INV-${String(Date.now()).slice(-6)}`;
       booking.status = 'Confirmed'; booking.stage = 5; booking.invoice = invoice; api.save('bookings', booking, id);
       let payment = api.list('payments').find(p => p.invoice === invoice);
-      if (!payment) payment = api.save('payments', { invoice, customer: booking.customer, total: booking.total, received: 0, due: booking.departure, receipts: [] });
+      if (!payment) payment = api.save('payments', { tripId: booking.tripId || '', invoice, customer: booking.customer, currency: booking.currency || 'INR', total: booking.total, received: 0, due: booking.departure, receipts: [] });
       const normalizedName = booking.customer.trim().toLowerCase();
       let customer = api.list('customers').find(row => row.phone === booking.phone || row.name.trim().toLowerCase() === normalizedName);
       const lastTrip = `${booking.trip} · ${booking.departure.slice(0, 4)}`;
       customer = customer
         ? api.save('customers', { ...customer, name: booking.customer, phone: booking.phone, lastTrip }, customer.id)
-        : api.save('customers', { name: booking.customer, phone: booking.phone, documents: '', lastTrip });
+        : api.save('customers', { name: booking.customer, phone: booking.phone, email: '', household: '', preferences: '', interests: '', accessibility: '', loyalty: 'New', consent: 'None recorded', documents: '', lastTrip });
       const lead = api.list('leads').find(row => row.phone === booking.phone || row.name.trim().toLowerCase() === normalizedName);
       if (lead && lead.status !== 'Confirmed') api.save('leads', { ...lead, status: 'Confirmed' }, lead.id);
       sql.exec('COMMIT'); return { booking, payment, customer };
     } catch (error) { sql.exec('ROLLBACK'); throw error; } },
-    backup() { return { schema: 1, exportedAt: new Date().toISOString(), ...api.state() }; },
-    restore(value) { if (!value || value.schema !== 1) fail('Unsupported backup file.'); for (const collection of collections) if (!Array.isArray(value[collection])) fail(`Backup is missing ${collection}.`); sql.exec('BEGIN IMMEDIATE'); try { sql.exec('DELETE FROM records'); const insert = sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)'); for (const collection of collections) for (const row of value[collection]) { const record = validateRecord(collection, row); insert.run(collection, record.id, JSON.stringify(record)); } for (const key of ['settings', 'quote', 'explorer']) api.meta(key, value[key] || {}); sql.exec('COMMIT'); return api.state(); } catch (error) { sql.exec('ROLLBACK'); throw error; } }
+    backup() { return { schema: 2, exportedAt: new Date().toISOString(), ...api.state() }; },
+    restore(value) { if (!value || ![1, 2].includes(value.schema)) fail('Unsupported backup file.'); for (const collection of ['leads', 'customers', 'bookings', 'visas', 'payments', 'suppliers', 'packages']) if (!Array.isArray(value[collection])) fail(`Backup is missing ${collection}.`); sql.exec('BEGIN IMMEDIATE'); try { sql.exec('DELETE FROM records'); const insert = sql.prepare('INSERT INTO records (collection,id,data) VALUES (?,?,?)'); for (const collection of collections) for (const row of value[collection] || []) { const record = validateRecord(collection, row); insert.run(collection, record.id, JSON.stringify(record)); } for (const key of ['settings', 'quote', 'explorer']) api.meta(key, { ...defaults[key], ...(value[key] || {}) }); sql.exec('COMMIT'); return api.state(); } catch (error) { sql.exec('ROLLBACK'); throw error; } }
   }; return api;
 }
 

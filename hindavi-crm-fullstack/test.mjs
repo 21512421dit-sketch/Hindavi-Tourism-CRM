@@ -63,7 +63,8 @@ test('employee API responses and routes enforce role restrictions', async () => 
   assert.deepEqual(state.suppliers, []);
   assert.equal('gstin' in state.settings, false);
   assert.deepEqual(Object.keys(state.settings), ['business']);
-  assert.ok(state.bookings.every(row => !('total' in row) && !('taxRate' in row) && !('invoice' in row)));
+  assert.ok(state.bookings.every(row => !('total' in row) && !('taxRate' in row) && !('invoice' in row) && !('supplierCost' in row) && !('deposit' in row) && !('refund' in row)));
+  assert.ok(Array.isArray(state.trips) && Array.isArray(state.tasks) && Array.isArray(state.documents) && Array.isArray(state.serviceCases));
   assert.equal((await request('/api/payments', { client: 'employee' })).response.status, 403);
   assert.equal((await request('/api/backup', { client: 'employee' })).response.status, 403);
   assert.equal((await request('/api/bookings/HT-26077/confirm', { client: 'employee', method: 'POST' })).response.status, 403);
@@ -71,6 +72,18 @@ test('employee API responses and routes enforce role restrictions', async () => 
   const updated = await request(`/api/packages/${packageRow.id}`, { client: 'employee', method: 'PUT', body: JSON.stringify(packageRow) });
   assert.equal(updated.response.status, 200);
   assert.equal(updated.value.tagline, 'Employee-edited package');
+});
+
+test('trip-centered first-release workflows persist and link safely', async () => {
+  const trip = await request('/api/trips', { method: 'POST', body: JSON.stringify({ name: 'Test Group · Dubai', customer: 'Test Traveler', customerId: '', destination: 'Dubai', start: '2026-12-01', end: '2026-12-05', status: 'Planning', currency: 'AED', timezone: 'Asia/Dubai', travelers: 'Test Traveler|Lead|Complete', rooming: 'Test Traveler|Single', itinerary: 'Dubai', transport: '', stays: '', activities: '', notes: '' }) });
+  assert.equal(trip.response.status, 201);
+  const task = await request('/api/tasks', { client: 'employee', method: 'POST', body: JSON.stringify({ tripId: trip.value.id, title: 'Confirm rooms', type: 'Confirmation', owner: 'Amit', due: '2026-11-01', priority: 'High', status: 'Open', escalated: 'No', notes: '' }) });
+  assert.equal(task.response.status, 201);
+  const quote = await request('/api/quotes', { method: 'POST', body: JSON.stringify({ tripId: trip.value.id, customer: 'Test Traveler', destination: 'Dubai', version: 1, status: 'Draft', expiry: '2026-10-01', currency: 'AED', inclusions: 'Hotel', exclusions: 'Flights', itinerary: 'Dubai', acceptedOn: '', taxRate: 5, items: [{ name: 'Hotel', cost: 1000, markup: 10 }] }) });
+  assert.equal(quote.response.status, 201);
+  const state = (await request('/api/state')).value;
+  assert.equal(state.tasks.find(row => row.id === task.value.id).tripId, trip.value.id);
+  assert.equal(state.quotes.find(row => row.id === quote.value.id).currency, 'AED');
 });
 
 test('employee create cannot collide with or reset an existing booking', async () => {

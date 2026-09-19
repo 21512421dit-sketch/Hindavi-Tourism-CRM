@@ -16,6 +16,12 @@ On the first start, one-time admin and employee credentials are written to `data
 
 Administrators can access all sections. Employees can operate leads, quotations, packages, customers, bookings, and visa cases, while finance, suppliers, reports, settings, backups, confirmation, deletion, and booking financial fields remain server-restricted.
 
+## Product coverage
+
+The CRM now uses Trip as its central operational record and includes traveler preferences and consent, inquiry qualification, quote versions and acceptance, bookings and receipts, supplier terms and performance, document controls, tasks, communication history, service cases, multi-currency labels, destination time zones, recommendations, dashboards and expanded reports. See `FEATURE_REVIEW.md` for the requirement-by-requirement review.
+
+Live reservation/inventory synchronization, hosted payment processing and a public traveler portal require separately selected providers and production security configuration. The CRM does not store payment-card numbers or identity-document scans.
+
 ## Test
 
 ```powershell
