@@ -14,8 +14,8 @@ const seed = {
     { id: 'LEAD-ANITA', name: 'Anita Joshi', phone: '9967233021', destination: 'Kerala', date: '2026-09-20', source: 'Instagram', status: 'Quotation', owner: 'Neha', followup: '2026-08-30' }
   ],
   customers: [
-    { id: 'CUS-PRIYA', name: 'Priya Patil', phone: '9876543210', email: 'priya@example.test', household: 'Patil family', preferences: 'Window seats; vegetarian meals', interests: 'Nature, snow, photography', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp and email', documents: 'Passport checklist complete', lastTrip: 'Goa · 2025' },
-    { id: 'CUS-RAHUL', name: 'Rahul Shah', phone: '9821011442', email: 'rahul@example.test', household: '', preferences: 'Boutique hotels; relaxed pace', interests: 'Food, culture', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp', documents: 'Passport checklist complete', lastTrip: 'Singapore · 2024' }
+    { id: 'HT-001', name: 'Priya Patil', phone: '9876543210', email: 'priya@example.test', household: 'Patil family', preferences: 'Window seats; vegetarian meals', interests: 'Nature, snow, photography', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp and email', documents: 'Passport checklist complete', lastTrip: 'Goa · 2025' },
+    { id: 'HT-002', name: 'Rahul Shah', phone: '9821011442', email: 'rahul@example.test', household: '', preferences: 'Boutique hotels; relaxed pace', interests: 'Food, culture', accessibility: '', loyalty: 'Returning', consent: 'WhatsApp', documents: 'Passport checklist complete', lastTrip: 'Singapore · 2024' }
   ],
   trips: [
     { id: 'TRIP-KERALA-26077', name: 'Anita · Kerala', customer: 'Anita Joshi', customerId: '', destination: 'Kerala', start: '2026-09-20', end: '2026-09-25', status: 'Planning', currency: 'INR', timezone: 'Asia/Kolkata', travelers: 'Anita Joshi|Lead traveler|Details complete', rooming: 'Anita Joshi|Double room', itinerary: 'Munnar · Thekkady · Alleppey', transport: 'Private ground transfers', stays: 'Hotel and houseboat options pending', activities: 'Tea gardens; backwaters', notes: 'Link all new operational work to this trip.' }
@@ -90,7 +90,7 @@ function phone(value) { const out = String(value || '').replace(/[\s()-]/g, '');
 function imageUrl(value) { if (!value) return ''; try { const url = new URL(String(value)); if (url.protocol !== 'https:' || url.hostname !== 'loremflickr.com') fail('Package image must use the approved HTTPS image host.'); return url.href; } catch (error) { if (error.status) throw error; fail('Package image URL is invalid.'); } }
 function optionalText(value, label, limit = 5000) { const out = String(value ?? '').trim(); if (out.length > limit) fail(`${label} is too long.`); return out; }
 function recordId(value) { const out = String(value || ''); if (!/^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$/.test(out)) fail('Record ID is invalid.'); return out; }
-function idFor(collection) { return `${collection.slice(0, 3).toUpperCase()}-${randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}`; }
+function idFor(collection) { if (collection === 'customers') return `HT-${String(Math.floor(100 + Math.random() * 900))}${randomUUID().replaceAll('-', '').slice(0, 3).toUpperCase()}`; return `${collection.slice(0, 3).toUpperCase()}-${randomUUID().replaceAll('-', '').slice(0, 12).toUpperCase()}`; }
 
 function validateRecord(collection, value) {
   const record = validators[collection](value);
